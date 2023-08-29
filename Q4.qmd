@@ -1,0 +1,23 @@
+---
+title: "Q4"
+author: "YOUR NAME HERE"
+format: html
+---
+
+## Exercise 4
+
+A very successful 2023 Women's World Cup soccer was held in Australia and New Zealand in the last two months. Data from the last one held in 2019 can be downloaded from R using the package `StatsBombR`. The data for the Australia vs Brazil match have been downloaded and processed and made available in the file `aus_brazil.rda`. The match was played on June 14, 2019, in Stade de la Mosson, in France, and Australia won 3-2. This question explores the match data. It will help if you install these packages:
+
+```{r}
+#| eval: false
+remotes::install_github("statsbomb/SDMTools")
+remotes::install_github("statsbomb/StatsBombR")
+devtools::install_github("FCrSTATS/SBpitch")
+```
+
+A really nice introduction to working with the data is available [here](https://statsbomb.com/wp-content/uploads/2022/08/Working-with-R.pdf). 
+
+a. Make a plot of shots on goal made by each team that looks like the following, and include your cleanly written code. (Note: 1. `location` has the position from which passes were made, in the form of an array. You can access the x and y values using `location.x` and `location.y`. 2. The positions have been processed so both teams are playing from left to right, so that it is easy to compare their play.)
+b. Summarise the shots for each country by player. Would you say that shots were a team effort or dominated by certain players?
+c. Now let's take a look at passes. The location from which passes are made could be characteristic of a team. Make a lineup to test whether the position from which a pass was made was different between Australia and Brazil. Conduct a visual inference analysis to determine if the actual plot can be distinguished from the null plots. Report your $p$-value, after asking 8 of your friends to judge your lineup, and summarise your findings. 
+d. The type of passes can also be characteristic of a team's play. Explore this with the variable `pass.length`, using a visual inference analysis. 

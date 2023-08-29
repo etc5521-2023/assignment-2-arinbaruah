@@ -1,0 +1,20 @@
+---
+title: "Q2"
+author: "YOUR NAME HERE"
+format: html
+---
+
+## Exercise 2
+
+The term "Barbenheimer" began on social media before the simultaneous theatrical release of two blockbuster films, Barbie and Oppenheimer, on July 21, 2023. This question asks you to explore data on movies released in 2023, not just these two. The data was compiled from https://datasets.imdbws.com and is available for you in the file "movies_2023.rda". (For each of the plots in d, e, f mark where Barbie and Oppenheimer fall, just for fun, and extra discussion points.)
+
+a. How many movies and variables are in the data?
+b. Think about your expectations. Write these down before you make any computations or plots of the data.
+- What genre keywords would you expect to be the most common? 
+- What would you expect the relationship between number of votes and ratings to be? 
+- What do you think the relationship between genre keyword and ratings might be? (What genre would have the top rating and which would have the lowest?)
+- Would you expect a relationship between run time and rating to be?
+c. Make a bar chart of the genre key words (`adventure` to `western`), and summarise the distribution.
+d. Plot the average rating by genre, in the best way that you can. Describe the distribution, and what you learn about ratings and genre.
+e. Plot ratings and number of votes, being careful as to which axis each should be plotted on. Summarise the distribution and what you learn.
+f. Make appropriate plots to explore the relationship of run time against ratings. 

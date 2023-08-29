@@ -1,0 +1,48 @@
+---
+title: "Q5"
+author: "YOUR NAME HERE"
+format: html
+---
+
+## Exercise 5
+
+For each of the following code fragments, write down was a potentially useful null hypothesis and null generating mechanism would be.
+
+a. `cl` is categorical and `x1` is numeric.
+
+```
+ggplot(data) + 
+  geom_boxplot(aes(x=cl, y=x1))
+```
+
+b. `temp` is the temperature of stars and is thought to have a skewed distribution.
+
+```
+ggplot(stars, aes(temp)) +
+  geom_histogram()
+```
+
+c. `rooms` is an integer variable, `perc` is a percentage (or count/frequency), `miss` is a logical variable indicating the value was missing or not. 
+
+```
+ggplot(housing, aes(x=rooms, y=perc, fill = miss)) +
+  geom_col(position = "dodge")
+```
+
+d. `height` and `weight` are quantitative variables, `sport` is categorical.
+
+```
+ggplot(olympics, aes(x = height, 
+                     y = weight,  
+                     colour = sport)
+      ) +
+  geom_smooth(method = "lm", se = FALSE)
+```
+
+e. `.resid` are residuals from a linear model fit.
+
+```
+ggplot(housing, aes(sample = .resid)) +
+    geom_qq() +
+    geom_qq_line() 
+```

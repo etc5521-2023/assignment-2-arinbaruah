@@ -1,0 +1,25 @@
+---
+title: "Q1"
+author: "YOUR NAME HERE"
+format: html
+---
+
+## Exercise 1
+
+Data from a recent study of viewports can be found in the data set `viewports.csv`. The purpose of the data collection was to *you simply do not know how users are going to visit your website or web app. Instead of making design decisions on strict, limited breakpoints, keep in mind the sheer amount of fragmentation there is in viewports.* The data was collected primarily from the USA and Europe, on 122,321 devices. Below is a glimpse of the data. It has three columns defining the width and height of the screen, and count is the number of devices with these dimensions. 
+
+```{r}
+#| echo: false
+#| eval: true
+#| message: false
+library(tidyverse)
+v <- read_csv(here::here("data/viewports.csv"))
+glimpse(v)
+```
+
+a. How many variables in this data and what type are they?
+b. Based on the description above, and the variables available in the data, posit two open-ended questions that might be interesting to answer with the data.
+c. Create a bubble scatterplot, where size represents the count, with an `x=y` guideline underlying the points. Describe what you learn about viewport sizes from this plot.
+d. Make a transformation of the data to create a new variable, `aspect_ratio`, based on Width and Height, that will allow you to explain the sizes in one of the conventional terms eg 16:9. (Note: use width:height definition of aspect ratio.)
+e. Show the aspect ratio as a density plot, where the x axis labels correspond to particular ratios, "1:3", "9:16", "1:1", "16:9", "3:1". (Note: Remember that the data is aggregated already, so that Count needs to the incorporated into computing the density. Setting the axis limits to between 0 and 4 is helpful, too.) Describe the distribution and explain what you learn.
+f. What is the most frequent aspect ratio? What (type of) device does this correspond to? (Note: You'll need to do some web searching.)
