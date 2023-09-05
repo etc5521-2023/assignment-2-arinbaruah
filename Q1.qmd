@@ -1,8 +1,18 @@
 ---
 title: "Q1"
-author: "YOUR NAME HERE"
+author: "Arindom Baruah (32779267)"
 format: html
+execute: 
+  eval: true
+  warning: false
+  message: false
 ---
+
+```{r echo=FALSE}
+library(tidyverse)
+library(ggplot2)
+```
+
 
 ## Exercise 1
 
@@ -12,13 +22,35 @@ Data from a recent study of viewports can be found in the data set `viewports.cs
 #| echo: false
 #| eval: true
 #| message: false
-library(tidyverse)
+
 v <- read_csv(here::here("data/viewports.csv"))
 glimpse(v)
 ```
+:::{.callout-note}
+# Question A
+__How many variables in this data and what type are they?__
 
-a. How many variables in this data and what type are they?
-b. Based on the description above, and the variables available in the data, posit two open-ended questions that might be interesting to answer with the data.
+:::
+
+# Answer a
+
+We observe a total of __`r v %>% ncol()`__ variables. Each of these variables are of the "Double" datatype which implies that they __are numerical values and are continuous in nature__.
+
+:::{.callout-note}
+# Question B
+__Based on the description above, and the variables available in the data, posit two open-ended questions that might be interesting to answer with the data.__
+:::
+
+# Answer b
+
+Based on the description above, following are the two open-ended questions which may be interesting to answer:
+
+1. Does the data suggest if users prefer a relatively narrow devices (such as smartphones) and whether wide devices (such as tablets) are abundant enough among users to account for any necessary website dimensional changes ?
+2. Is there a popular dimensional ratio of devices (Height:Width) which users prefer ?
+3. Is there a need to create an application which standardises the viewport for the device in which, the application has been installed ?
+
+
+
 c. Create a bubble scatterplot, where size represents the count, with an `x=y` guideline underlying the points. Describe what you learn about viewport sizes from this plot.
 d. Make a transformation of the data to create a new variable, `aspect_ratio`, based on Width and Height, that will allow you to explain the sizes in one of the conventional terms eg 16:9. (Note: use width:height definition of aspect ratio.)
 e. Show the aspect ratio as a density plot, where the x axis labels correspond to particular ratios, "1:3", "9:16", "1:1", "16:9", "3:1". (Note: Remember that the data is aggregated already, so that Count needs to the incorporated into computing the density. Setting the axis limits to between 0 and 4 is helpful, too.) Describe the distribution and explain what you learn.
