@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -92,7 +126,7 @@ Question A
 <p><strong>How many variables in this data and what type are they?</strong></p>
 </div>
 </div>
-<p>Answer a</p>
+<p>Answer A</p>
 <p>We observe a total of <strong>3</strong> variables. Each of these variables are of the “Double” datatype which implies that they <strong>are numerical values and are continuous in nature</strong>.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -107,7 +141,7 @@ Question B
 <p><strong>Based on the description above, and the variables available in the data, posit two open-ended questions that might be interesting to answer with the data.</strong></p>
 </div>
 </div>
-<p>Answer b</p>
+<p>Answer B</p>
 <p>Based on the description above, following are the open-ended questions which may be interesting to answer:</p>
 <div class="alert alert-block alert-warning">
 <ol type="1">
@@ -129,7 +163,32 @@ Question C
 <p><strong>Create a bubble scatterplot, where size represents the count, with an <code>x=y</code> guideline underlying the points. Describe what you learn about viewport sizes from this plot.</strong></p>
 </div>
 </div>
-<p>Answer c</p>
+<p>Answer C</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pl1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> v <span class="sc">%&gt;%</span> <span class="fu">drop_na</span>(),<span class="fu">aes</span>(<span class="at">x =</span> Height,<span class="at">y =</span> Width,<span class="at">size=</span>Count)) <span class="sc">+</span> <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">aspect.ratio =</span> <span class="dv">1</span>) <span class="sc">+</span> <span class="fu">lims</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">7000</span>),<span class="at">y =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">7000</span>)) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Height Vs Width of devices"</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">size =</span> <span class="st">"Number of devices"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pl1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-scat" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Q1_files/figure-html/fig-scat-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: Scatter plot for Height Vs Width of devices</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p><a href="#fig-scat">Figure&nbsp;1</a> illustrates a scatter plot of the height and width of the devices alongwith number of users reporting these dimensions which has been illustrated through the size of the scatter plots.</p>
+<div class="alert alert-block alert-warning">
+<p>💡🔍 Upon analysing the above plot, we can observe that</p>
+<ol type="1">
+<li>The majority of devices are within the height and width values of 2000 mm.<br>
+</li>
+<li>On the other hand, the combination of height and width of the devices larger 4000 mm are very few.</li>
+<li>Devices with widths greater than 2000 mm tend to have lower values of height (generally less than 1500 mm) than their corresponding width.</li>
+<li>Beyond the width values of 2000 mm, there are negligible number of square displays (Width = Height).</li>
+<li>A square display with height and width values of 7000 mm can be observed which is a rare choice among the users.</li>
+</ol>
+<p>This suggests that <strong>majority of the viewport sizes range between 0-2000 mm</strong>. The number of <strong>users with viewport sizes higher than 4000 mm are very low in number</strong>.</p>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -142,6 +201,9 @@ Question D
 <div class="callout-body-container callout-body">
 <p><strong>Make a transformation of the data to create a new variable, <code>aspect_ratio</code>, based on Width and Height, that will allow you to explain the sizes in one of the conventional terms eg 16:9. (Note: use width:height definition of aspect ratio.)</strong></p>
 </div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>v <span class="ot">&lt;-</span> v <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">aspect_ratio =</span> Width<span class="sc">/</span>Height)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -156,6 +218,22 @@ Question E
 <p><strong>Show the aspect ratio as a density plot, where the x axis labels correspond to particular ratios, “1:3”, “9:16”, “1:1”, “16:9”, “3:1”. (Note: Remember that the data is aggregated already, so that Count needs to the incorporated into computing the density. Setting the axis limits to between 0 and 4 is helpful, too.) Describe the distribution and explain what you learn.</strong></p>
 </div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>axis_labels <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1:3"</span>,<span class="st">"9:16"</span>,<span class="st">"1:1"</span>,<span class="st">"16:9"</span>,<span class="st">"3:1"</span>,<span class="st">"4:1"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>pl2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> v <span class="sc">%&gt;%</span> <span class="fu">filter</span>(aspect_ratio<span class="sc">&lt;</span><span class="dv">4</span>), <span class="fu">aes</span>(<span class="at">x =</span> aspect_ratio)) <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">"cornsilk"</span>) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Aspect ratio of device (Width : Height)"</span>,<span class="at">y =</span>  <span class="st">"Density of observed value"</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Density plot of Aspect ratio"</span>) <span class="sc">+</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lims</span>(<span class="at">x =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">4</span>)) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> axis_labels,<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">/</span><span class="dv">3</span>,<span class="dv">9</span><span class="sc">/</span><span class="dv">16</span>,<span class="dv">1</span>,<span class="dv">16</span><span class="sc">/</span><span class="dv">9</span>,<span class="dv">3</span><span class="sc">/</span><span class="dv">1</span>,<span class="dv">4</span><span class="sc">/</span><span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">20</span>,<span class="at">size =</span> <span class="dv">6</span>,<span class="at">face =</span> <span class="st">'bold'</span>)) </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>pl2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-dense" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Q1_files/figure-html/fig-dense-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: Density plot of aspect ratio</figcaption>
+</figure>
+</div>
+</div>
+</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -168,6 +246,13 @@ Question F
 <div class="callout-body-container callout-body">
 <p><strong>What is the most frequent aspect ratio? What (type of) device does this correspond to? (Note: You’ll need to do some web searching.)</strong></p>
 </div>
+</div>
+<p>Answer F</p>
+<p><a href="#fig-dense">Figure&nbsp;2</a> illustrates the various aspect ratios of the devices reported by the users. We can observe that the density plot is bi-modal in nature with peaks occuring around the aspect ratio of <strong>“9:16”</strong> and the other peak at <strong>“16:9”</strong>.</p>
+<p>Upon referring to the general aspect ratio of devices <a href="https://en.wikipedia.org/wiki/Aspect_ratio_(image)">here</a>, we can make the following inferences.</p>
+<div class="alert alert-block alert-warning">
+<p>Aspect ratio of 9:16 : <strong>Typical smartphones used in mid-late 2010s </strong>📱<br>
+Aspect ratio of 16:9 : <strong>Typical computer monitor screens 🖥️</strong></p>
 </div>
 </section>
 

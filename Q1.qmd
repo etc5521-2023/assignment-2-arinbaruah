@@ -63,9 +63,23 @@ Answer C
 ```{r}
 #| label: fig-scat
 #| fig-cap: "Scatter plot for Height Vs Width of devices"
-pl1 <- ggplot(data = v %>% drop_na(),aes(x = Height,y = Width,color = Count,size=Count)) + geom_point(alpha = 0.3) + theme(aspect.ratio = 1) + lims(x = c(0,7000),y = c(0,7000)) + ggtitle("Height Vs Width of devices") + labs(size = "Number of devices")
+pl1 <- ggplot(data = v %>% drop_na(),aes(x = Height,y = Width,size=Count)) + geom_point(alpha = 0.5) + theme(aspect.ratio = 1) + lims(x = c(0,7000),y = c(0,7000)) + ggtitle("Height Vs Width of devices") + labs(size = "Number of devices")
 pl1
 ```
+@fig-scat illustrates a scatter plot of the height and width of the devices alongwith number of users reporting these dimensions which has been illustrated through the size of the scatter plots.
+
+<div class="alert alert-block alert-warning">
+💡🔍
+Upon analysing the above plot, we can observe that 
+
+1. The majority of devices are within the height and width values of 2000 mm. \
+2. On the other hand, the combination of height and width of the devices larger 4000 mm are very few.
+3. Devices with widths greater than 2000 mm tend to have lower values of height (generally less than 1500 mm) than their corresponding width.
+4. Beyond the width values of 2000 mm, there are negligible number of square displays (Width = Height).
+5. A square display with height and width values of 7000 mm can be observed which is a rare choice among the users.
+
+This suggests that __majority of the viewport sizes range between 0-2000 mm__. The number of __users with viewport sizes higher than 4000 mm are very low in number__.
+</div>
 
 
 :::{.callout-note}
@@ -85,8 +99,11 @@ __Show the aspect ratio as a density plot, where the x axis labels correspond to
 ```{r}
 #| label: fig-dense
 #| fig-cap: "Density plot of aspect ratio"
-axis_labels <- c("1:3","9:16","1:1","16:9","3:1")
-pl2 <- ggplot(data = v, aes(x = aspect_ratio)) + geom_density(fill = "cornsilk") + theme_classic() + xlim(c(0,4)) + labs(x = "Aspect ratio of device (Width : Height)",y =  "Density of observed value") + ggtitle("Density plot of Aspect ratio") + scale_x_continuous(labels = axis_labels,breaks = c(1/3,9/16,1,16/9,3/1)) + theme(axis.text.x = element_text(angle = 20,size = 6,face = 'bold'))
+axis_labels <- c("1:3","9:16","1:1","16:9","3:1","4:1")
+pl2 <- ggplot(data = v %>% filter(aspect_ratio<4), aes(x = aspect_ratio)) + geom_density(fill = "cornsilk") + theme_classic() + labs(x = "Aspect ratio of device (Width : Height)",y =  "Density of observed value") + ggtitle("Density plot of Aspect ratio") + 
+  lims(x = c(0,4)) +
+  scale_x_continuous(labels = axis_labels,breaks = c(1/3,9/16,1,16/9,3/1,4/1)) + 
+  theme(axis.text.x = element_text(angle = 20,size = 6,face = 'bold')) 
 pl2
 ```
 
@@ -98,3 +115,13 @@ __What is the most frequent aspect ratio? What (type of) device does this corres
 
 Answer F
 
+@fig-dense illustrates the various aspect ratios of the devices reported by the users. We can observe that the density plot is bi-modal in nature with peaks occuring around the aspect ratio of __"9:16"__ and the other peak at __"16:9"__.
+
+Upon referring to the general aspect ratio of devices [here](https://en.wikipedia.org/wiki/Aspect_ratio_(image)), we can make the following inferences.
+
+<div class="alert alert-block alert-warning">
+
+Aspect ratio of 9:16 : __Typical smartphones used in mid-late 2010s __📱 \
+Aspect ratio of 16:9 : __Typical computer monitor screens 🖥️__
+
+</div>
