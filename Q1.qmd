@@ -32,7 +32,7 @@ __How many variables in this data and what type are they?__
 
 :::
 
-Answer a
+Answer A
 
 We observe a total of __`r v %>% ncol()`__ variables. Each of these variables are of the "Double" datatype which implies that they __are numerical values and are continuous in nature__.
 
@@ -41,7 +41,7 @@ We observe a total of __`r v %>% ncol()`__ variables. Each of these variables ar
 __Based on the description above, and the variables available in the data, posit two open-ended questions that might be interesting to answer with the data.__
 :::
 
-Answer b
+Answer B
 
 Based on the description above, following are the open-ended questions which may be interesting to answer:
 
@@ -58,7 +58,14 @@ Based on the description above, following are the open-ended questions which may
 __Create a bubble scatterplot, where size represents the count, with an `x=y` guideline underlying the points. Describe what you learn about viewport sizes from this plot.__
 :::
 
-Answer c
+Answer C
+
+```{r}
+#| label: fig-scat
+#| fig-cap: "Scatter plot for Height Vs Width of devices"
+pl1 <- ggplot(data = v %>% drop_na(),aes(x = Height,y = Width,color = Count,size=Count)) + geom_point(alpha = 0.3) + theme(aspect.ratio = 1) + lims(x = c(0,7000),y = c(0,7000)) + ggtitle("Height Vs Width of devices") + labs(size = "Number of devices")
+pl1
+```
 
 
 :::{.callout-note}
@@ -66,12 +73,28 @@ Answer c
 __Make a transformation of the data to create a new variable, `aspect_ratio`, based on Width and Height, that will allow you to explain the sizes in one of the conventional terms eg 16:9. (Note: use width:height definition of aspect ratio.)__
 :::
 
+```{r}
+v <- v %>% mutate(aspect_ratio = Width/Height)
+```
+
 :::{.callout-note}
 # Question E
 __Show the aspect ratio as a density plot, where the x axis labels correspond to particular ratios, "1:3", "9:16", "1:1", "16:9", "3:1". (Note: Remember that the data is aggregated already, so that Count needs to the incorporated into computing the density. Setting the axis limits to between 0 and 4 is helpful, too.) Describe the distribution and explain what you learn.__
 :::
 
+```{r}
+#| label: fig-dense
+#| fig-cap: "Density plot of aspect ratio"
+axis_labels <- c("1:3","9:16","1:1","16:9","3:1")
+pl2 <- ggplot(data = v, aes(x = aspect_ratio)) + geom_density(fill = "cornsilk") + theme_classic() + xlim(c(0,4)) + labs(x = "Aspect ratio of device (Width : Height)",y =  "Density of observed value") + ggtitle("Density plot of Aspect ratio") + scale_x_continuous(labels = axis_labels,breaks = c(1/3,9/16,1,16/9,3/1)) + theme(axis.text.x = element_text(angle = 20,size = 6,face = 'bold'))
+pl2
+```
+
+
 :::{.callout-note}
 # Question F
 __What is the most frequent aspect ratio? What (type of) device does this correspond to? (Note: You'll need to do some web searching.)__
 :::
+
+Answer F
+
