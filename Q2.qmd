@@ -74,7 +74,7 @@ df_genre_long <- df_genre %>% pivot_longer(cols = c(1:ncol(df_genre)),names_to =
 pl1 <- ggplot(data = df_genre_long,aes(x = reorder(Genre,
                                                    Total_movies),
                                        y =Total_movies)) + geom_col() + coord_flip() + 
-  geom_label(aes(label = Total_movies),nudge_y = 60) + geom_col(data = ~filter(.x, Genre == "drama"),fill='darkred') + theme_classic() + labs(x = "Movie genre",y = "Total number of movies")
+  geom_label(aes(label = Total_movies),nudge_y = 60) + geom_col(data = ~filter(.x, Genre == "drama"),fill='darkred') + theme_classic() + labs(x = "Movie genre",y = "Total number of movies") + labs(caption = "Source: IMDB")
 pl1
 ```
 <div class="alert alert-block alert-warning">
@@ -110,28 +110,38 @@ df_genre_long_rating <- df_genre_long_rating %>% mutate("Average_rating" = Total
 
 
 ```{r}
-#| label: fig-broad
-#| fig-cap: PhD graduates in each broad field
+#| label: fig-genre
+#| fig-cap: "Average rating of each genre for movies released in 2023"
 df_genre_long_rating$Average_rating <- round(df_genre_long_rating$Average_rating,1)
 
-ggdotchart(df_genre_long_rating, y = "Average_rating", 
+df_genre_sorted <- df_genre_long_rating %>% arrange(Average_rating)
+
+ggdotchart(df_genre_sorted, y = "Average_rating", 
            x = "Genre",
-           color = "Genre",                       
+           color = "Average_rating",                       
            add = "segments",
            add.params = list(color = "lightgray", size = 2),                             
            dot.size = 8,
            rotate=TRUE,
            label = "Average_rating",
            group = "Genre",                                
-           font.label = list(color = "black", size = 7, 
+           font.label = list(color = "white", size = 8, 
                              vjust = 0, face = 'bold'),               
            ggtheme = theme_economist()                        
            ) + theme(legend.position = "none",panel.background = element_rect(fill = 'cornsilk'),axis.text = element_text(face = "bold")) +
   geom_hline(yintercept = 0, linetype = 2, color = "lightgray") + labs(y = "Average rating of each genre", 
-                                                                       x= "Movie genre",
-                                                                       caption = "Source: IMDB") + ggtitle("Average rating of each genre for movies in 2023") 
+                                                                       x= "Movie Genre",
+                                                                       caption = "Source: IMDB") + ggtitle("Average rating of each genre for movies released in 2023") 
 ```
 
+<div class="alert alert-block alert-warning">
+Based on @fig-genre, we can observe that:
 
+1. On average, movies of musical genre received the highest rating of 7.5. However, it must also be noted that there were only 119 movies of this genre released in the year of 2023.
+2. Movies of most common genres such as drama and comedy scored an average rating of 6.8 and 6.4 respectively.
+3. Documentaries which were one of the top 3 most common genres score a relatively high average rating of 7.4. This shows that most viewers rate documentaries higher than other common genres such as comedy and drama.
+4. Horror movies were observed to obtain the lowest average rating, indicating that the releases in 2023 have not been upto the mark.
+</div>
 e. Plot ratings and number of votes, being careful as to which axis each should be plotted on. Summarise the distribution and what you learn.
 f. Make appropriate plots to explore the relationship of run time against ratings. 
+
