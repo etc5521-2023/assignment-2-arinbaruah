@@ -184,9 +184,103 @@ $ western        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 <div class="alert alert-block alert-warning">
 <p>I would expect movies with <strong>run times of short to moderate</strong> to be the ones with relatively higher values of ratings.</p>
 </div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question C
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ol start="3" type="a">
 <li>Make a bar chart of the genre key words (<code>adventure</code> to <code>western</code>), and summarise the distribution.</li>
-<li>Plot the average rating by genre, in the best way that you can. Describe the distribution, and what you learn about ratings and genre.</li>
+</ol>
+</div>
+</div>
+<p>Answer C</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_genre <span class="ot">&lt;-</span> movies_2023 <span class="sc">%&gt;%</span> <span class="fu">select</span>(<span class="dv">10</span><span class="sc">:</span><span class="dv">30</span>) <span class="sc">%&gt;%</span> <span class="fu">summarise_all</span>(sum)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>df_genre_long <span class="ot">&lt;-</span> df_genre <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(df_genre)),<span class="at">names_to =</span> <span class="st">"Genre"</span>,<span class="at">values_to =</span> <span class="st">"Total_movies"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>pl1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> df_genre_long,<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(Genre,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                                                   Total_movies),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">y =</span>Total_movies)) <span class="sc">+</span> <span class="fu">geom_col</span>() <span class="sc">+</span> <span class="fu">coord_flip</span>() <span class="sc">+</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span> Total_movies),<span class="at">nudge_y =</span> <span class="dv">60</span>) <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="at">data =</span> <span class="sc">~</span><span class="fu">filter</span>(.x, Genre <span class="sc">==</span> <span class="st">"drama"</span>),<span class="at">fill=</span><span class="st">'darkred'</span>) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Movie genre"</span>,<span class="at">y =</span> <span class="st">"Total number of movies"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>pl1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-bar" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Q2_files/figure-html/fig-bar-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;1: Number of movies in 2023 based on genre</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="alert alert-block alert-warning">
+<p><a href="#fig-bar">Figure&nbsp;1</a> illustrates the number of movies released for each genre in the year of 2023. The top 3 most common genres are drama, comedy and documentaries. This is expected as <strong>such genres have a very wide viewership and hence, can cater to viewers of all ages</strong>.</p>
+<p>Genres such as war,western and reality were observed to be the least common as they have a <strong>very specific audience and are not suitable for all age groups</strong>.</p>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question D
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Plot the average rating by genre, in the best way that you can. Describe the distribution, and what you learn about ratings and genre.</p>
+</div>
+</div>
+<p>Answer D</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>df_final <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(movies_2023)) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> movies_2023[i,<span class="dv">10</span><span class="sc">:</span><span class="fu">ncol</span>(movies_2023)] <span class="sc">*</span> <span class="fu">pull</span>(movies_2023[i,<span class="st">"averageRating"</span>])</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  df_final <span class="ot">&lt;-</span> <span class="fu">rbind</span>(df_final,temp)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  i<span class="ot">=</span>i<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_genre_rating <span class="ot">&lt;-</span> df_final <span class="sc">%&gt;%</span> <span class="fu">summarise_all</span>(sum)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>df_genre_long_rating <span class="ot">&lt;-</span> df_genre_rating <span class="sc">%&gt;%</span> <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(df_genre_rating)),<span class="at">names_to =</span> <span class="st">"Genre"</span>,<span class="at">values_to =</span> <span class="st">"Total_Average_rating"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>df_genre_long_rating <span class="ot">&lt;-</span> <span class="fu">left_join</span>(df_genre_long_rating,df_genre_long,<span class="at">by=</span><span class="st">"Genre"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>df_genre_long_rating <span class="ot">&lt;-</span> df_genre_long_rating <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="st">"Average_rating"</span> <span class="ot">=</span> Total_Average_rating<span class="sc">/</span>Total_movies) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df_genre_long_rating<span class="sc">$</span>Average_rating <span class="ot">&lt;-</span> <span class="fu">round</span>(df_genre_long_rating<span class="sc">$</span>Average_rating,<span class="dv">1</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggdotchart</span>(df_genre_long_rating, <span class="at">y =</span> <span class="st">"Average_rating"</span>, </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> <span class="st">"Genre"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"Genre"</span>,                       </span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">add =</span> <span class="st">"segments"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">add.params =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">"lightgray"</span>, <span class="at">size =</span> <span class="dv">2</span>),                             </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">dot.size =</span> <span class="dv">8</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">rotate=</span><span class="cn">TRUE</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">"Average_rating"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>           <span class="at">group =</span> <span class="st">"Genre"</span>,                                </span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">font.label =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">"black"</span>, <span class="at">size =</span> <span class="dv">7</span>, </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>                             <span class="at">vjust =</span> <span class="dv">0</span>, <span class="at">face =</span> <span class="st">'bold'</span>),               </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>           <span class="at">ggtheme =</span> <span class="fu">theme_economist</span>()                        </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>           ) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">'cornsilk'</span>),<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>)) <span class="sc">+</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"lightgray"</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Average rating of each genre"</span>, </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>                                                                       <span class="at">x=</span> <span class="st">"Movie genre"</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>                                                                       <span class="at">caption =</span> <span class="st">"Source: IMDB"</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Average rating of each genre for movies in 2023"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-broad" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Q2_files/figure-html/fig-broad-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;2: PhD graduates in each broad field</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<ol start="5" type="a">
 <li>Plot ratings and number of votes, being careful as to which axis each should be plotted on. Summarise the distribution and what you learn.</li>
 <li>Make appropriate plots to explore the relationship of run time against ratings.</li>
 </ol>

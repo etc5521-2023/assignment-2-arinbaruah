@@ -10,6 +10,8 @@ execute:
 ```{r echo=FALSE}
 library(tidyverse)
 library(ggplot2)
+library(ggpubr)
+library(ggthemes)
 ```
 
 
@@ -56,7 +58,80 @@ I would expect genres which are __suitable for all ages such as "Comedy","Action
 I would expect movies with __run times of short to moderate__ to be the ones with relatively higher values of ratings.
 </div>
 
+:::{.callout-note}
+# Question C
 c. Make a bar chart of the genre key words (`adventure` to `western`), and summarise the distribution.
-d. Plot the average rating by genre, in the best way that you can. Describe the distribution, and what you learn about ratings and genre.
+:::
+
+Answer C
+```{r}
+#| label: fig-bar
+#| fig-cap: "Number of movies in 2023 based on genre"
+df_genre <- movies_2023 %>% select(10:30) %>% summarise_all(sum)
+
+df_genre_long <- df_genre %>% pivot_longer(cols = c(1:ncol(df_genre)),names_to = "Genre",values_to = "Total_movies")
+
+pl1 <- ggplot(data = df_genre_long,aes(x = reorder(Genre,
+                                                   Total_movies),
+                                       y =Total_movies)) + geom_col() + coord_flip() + 
+  geom_label(aes(label = Total_movies),nudge_y = 60) + geom_col(data = ~filter(.x, Genre == "drama"),fill='darkred') + theme_classic() + labs(x = "Movie genre",y = "Total number of movies")
+pl1
+```
+<div class="alert alert-block alert-warning">
+@fig-bar illustrates the number of movies released for each genre in the year of 2023. The top 3 most common genres are drama, comedy and documentaries. This is expected as __such genres have a very wide viewership and hence, can cater to viewers of all ages__.
+
+Genres such as war,western and reality were observed to be the least common as they have a __very specific audience and are not suitable for all age groups__.
+</div>
+:::{.callout-note}
+# Question D
+Plot the average rating by genre, in the best way that you can. Describe the distribution, and what you learn about ratings and genre.
+:::
+Answer D
+
+```{r}
+df_final <- data.frame()
+for (i in 1:nrow(movies_2023)) {
+  temp <- movies_2023[i,10:ncol(movies_2023)] * pull(movies_2023[i,"averageRating"])
+  df_final <- rbind(df_final,temp)
+  i=i+1
+}
+
+
+```
+
+
+```{r}
+df_genre_rating <- df_final %>% summarise_all(sum)
+
+df_genre_long_rating <- df_genre_rating %>% pivot_longer(cols = c(1:ncol(df_genre_rating)),names_to = "Genre",values_to = "Total_Average_rating")
+df_genre_long_rating <- left_join(df_genre_long_rating,df_genre_long,by="Genre")
+df_genre_long_rating <- df_genre_long_rating %>% mutate("Average_rating" = Total_Average_rating/Total_movies) 
+```
+
+
+```{r}
+#| label: fig-broad
+#| fig-cap: PhD graduates in each broad field
+df_genre_long_rating$Average_rating <- round(df_genre_long_rating$Average_rating,1)
+
+ggdotchart(df_genre_long_rating, y = "Average_rating", 
+           x = "Genre",
+           color = "Genre",                       
+           add = "segments",
+           add.params = list(color = "lightgray", size = 2),                             
+           dot.size = 8,
+           rotate=TRUE,
+           label = "Average_rating",
+           group = "Genre",                                
+           font.label = list(color = "black", size = 7, 
+                             vjust = 0, face = 'bold'),               
+           ggtheme = theme_economist()                        
+           ) + theme(legend.position = "none",panel.background = element_rect(fill = 'cornsilk'),axis.text = element_text(face = "bold")) +
+  geom_hline(yintercept = 0, linetype = 2, color = "lightgray") + labs(y = "Average rating of each genre", 
+                                                                       x= "Movie genre",
+                                                                       caption = "Source: IMDB") + ggtitle("Average rating of each genre for movies in 2023") 
+```
+
+
 e. Plot ratings and number of votes, being careful as to which axis each should be plotted on. Summarise the distribution and what you learn.
 f. Make appropriate plots to explore the relationship of run time against ratings. 
