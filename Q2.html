@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.353">
+<meta name="generator" content="quarto-1.3.450">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -291,10 +291,62 @@ Question D
 <li>Horror movies were observed to obtain the lowest average rating, indicating that the releases in 2023 have not been upto the mark.</li>
 </ol>
 </div>
-<ol start="5" type="a">
-<li>Plot ratings and number of votes, being careful as to which axis each should be plotted on. Summarise the distribution and what you learn.</li>
-<li>Make appropriate plots to explore the relationship of run time against ratings.</li>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question E
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Plot ratings and number of votes, being careful as to which axis each should be plotted on. Summarise the distribution and what you learn.</p>
+</div>
+</div>
+<p>Answer E</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">1000</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df_votes <span class="ot">&lt;-</span> movies_2023 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(averageRating) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">Total_votes =</span> <span class="fu">sum</span>(numVotes))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>pl2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> df_votes,<span class="fu">aes</span>(<span class="at">x =</span> averageRating,<span class="at">y =</span> Total_votes<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">fill=</span>averageRating)) <span class="sc">+</span> <span class="fu">theme_classic</span>()<span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Average rating"</span>,<span class="at">y =</span> <span class="st">"Total number of votes (in 1000s)"</span>,<span class="at">caption =</span> <span class="st">"Source: IMDB"</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'none'</span>) </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>pl2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-votes" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Q2_files/figure-html/fig-votes-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;3: Distribution of the number of votes for each value of average rating received</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="alert alert-block alert-warning">
+<p>Based on our analysis of <a href="#fig-votes">Figure&nbsp;3</a>, we can make the following observations:</p>
+<ol type="1">
+<li>There were <strong>very few movies</strong> which were either rated <strong>very low (less than 3) or very high (higher than 9)</strong>.</li>
+<li>The <strong>rating of 6.1 was the most common rating in the dataset, followed by 7.4 and 8</strong>.</li>
+<li>Majority of the movies are rated between 5 and 8, which indicates that <strong>most movies are likely to be moderately rated</strong>.</li>
 </ol>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question F
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Make appropriate plots to explore the relationship of run time against ratings.</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pl3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>movies_2023,<span class="fu">aes</span>(<span class="at">x =</span> averageRating,<span class="at">y =</span> runtimeMinutes)) <span class="sc">+</span> <span class="fu">geom_bin2d</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">3</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pl3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Q2_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
 </section>
 
 </main>

@@ -12,6 +12,7 @@ library(tidyverse)
 library(ggplot2)
 library(ggpubr)
 library(ggthemes)
+library(ggExtra)
 ```
 
 
@@ -142,6 +143,41 @@ Based on @fig-genre, we can observe that:
 3. Documentaries which were one of the top 3 most common genres score a relatively high average rating of 7.4. This shows that most viewers rate documentaries higher than other common genres such as comedy and drama.
 4. Horror movies were observed to obtain the lowest average rating, indicating that the releases in 2023 have not been upto the mark.
 </div>
-e. Plot ratings and number of votes, being careful as to which axis each should be plotted on. Summarise the distribution and what you learn.
-f. Make appropriate plots to explore the relationship of run time against ratings. 
+
+:::{.callout-note}
+# Question E
+Plot ratings and number of votes, being careful as to which axis each should be plotted on. Summarise the distribution and what you learn.
+:::
+Answer E
+
+```{r}
+#| label: fig-votes
+#| fig-cap: "Distribution of the number of votes for each value of average rating received"
+options(scipen=1000)
+df_votes <- movies_2023 %>% group_by(averageRating) %>% summarise(Total_votes = sum(numVotes))
+pl2 <- ggplot(data = df_votes,aes(x = averageRating,y = Total_votes/1000)) + geom_col(aes(fill=averageRating)) + theme_classic()+ scale_x_continuous(breaks = c(1:10)) + labs(x = "Average rating",y = "Total number of votes (in 1000s)",caption = "Source: IMDB") + theme(legend.position = 'none') 
+pl2
+```
+<div class="alert alert-block alert-warning">
+
+Based on our analysis of @fig-votes, we can make the following observations:
+
+1. There were __very few movies__ which were either rated __very low (less than 3) or very high (higher than 9)__.
+2. The __rating of 6.1 was the most common rating in the dataset, followed by 7.4 and 8__.
+3. Majority of the movies are rated between 5 and 8, which indicates that __most movies are likely to be moderately rated__.
+
+</div>
+
+
+
+:::{.callout-note}
+# Question F
+Make appropriate plots to explore the relationship of run time against ratings. 
+:::
+
+```{r}
+
+pl3 <- ggplot(data=movies_2023,aes(x = averageRating,y = runtimeMinutes)) + geom_bin2d() + theme(axis.text.y = element_text(size = 3))
+pl3
+```
 

@@ -63,7 +63,7 @@ Answer C
 ```{r}
 #| label: fig-scat
 #| fig-cap: "Scatter plot for Height Vs Width of devices"
-pl1 <- ggplot(data = v %>% drop_na(),aes(x = Height,y = Width,size=Count)) + geom_point(alpha = 0.5) + theme(aspect.ratio = 1) + lims(x = c(0,7000),y = c(0,7000)) + ggtitle("Height Vs Width of devices") + labs(size = "Number of devices")
+pl1 <- ggplot(data = v %>% drop_na(),aes(x = Height,y = Width,size=Count)) + geom_point(alpha = 0.5) + geom_abline(slope = 1,intercept = 0,color='red',linetype= 'dashed') + theme(aspect.ratio = 1) + lims(x = c(0,7000),y = c(0,7000)) + ggtitle("Height Vs Width of devices") + labs(size = "Number of devices")
 pl1
 ```
 @fig-scat illustrates a scatter plot of the height and width of the devices alongwith number of users reporting these dimensions which has been illustrated through the size of the scatter plots.
