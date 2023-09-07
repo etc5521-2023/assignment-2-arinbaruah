@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -107,6 +141,47 @@ dbl (193): year, new_sp, new_sn, new_su, new_ep, new_oth, ret_rel, ret_taf, ...
 <p>The earliest year of the study is <strong>1980</strong> and the latest year of study is <strong>2021</strong>.</p>
 <ol start="3" type="a">
 <li>There are numerous ways that TB is detected, and this is reflected in the data as <code>new_sp</code>, <code>new_sn</code>, <code>new_su</code>, <code>new_ep</code> and <code>new_oth</code>. Create a new variable which sums these values for each year, for each country. Make an appropriate plot to show the counts for Australia over time. Describe the pattern, and try to explain it, which might require searching for more information about TB reporting.</li>
+</ol>
+<div class="alert alert-block alert-warning">
+<p>The terms “new_sp,” “new_sn,” “new_su,” “new_ep,” and “new_oth” are commonly used abbreviations and codes in the context of tuberculosis (TB) detection and reporting. They are part of the World Health Organization’s (WHO) TB case notification system, which categorizes TB cases into different types based on clinical and epidemiological characteristics. These categories help in tracking and managing TB cases effectively. Here’s what each of these terms typically represents:</p>
+<ol type="1">
+<li><strong>New Smear-Positive (New SP)</strong>:
+<ul>
+<li>New SP refers to newly diagnosed TB cases where sputum smear microscopy (a laboratory test) has confirmed the presence of acid-fast bacilli (AFB), which are indicative of active TB disease.</li>
+<li>“Smear-positive” means that TB bacteria are present in the patient’s sputum and can be detected under a microscope. This category is important because smear-positive cases are more infectious and require immediate treatment to reduce transmission.</li>
+</ul></li>
+<li><strong>New Smear-Negative (New SN)</strong>:
+<ul>
+<li>New SN refers to newly diagnosed TB cases where sputum smear microscopy did not detect AFB, but the patient’s clinical symptoms and other diagnostic methods (e.g., culture or molecular tests) suggest active TB disease.</li>
+<li>Some TB cases may not have detectable AFB in their sputum, especially in the early stages of the disease. These cases are still considered infectious and are treated accordingly.</li>
+</ul></li>
+<li><strong>New Extrapulmonary (New EP)</strong>:
+<ul>
+<li>New EP refers to newly diagnosed TB cases where the disease is located outside the lungs (extrapulmonary). TB can affect various organs and tissues in the body, and extrapulmonary cases occur when TB is found in places other than the respiratory system.</li>
+<li>Common sites of extrapulmonary TB include lymph nodes, bones, joints, and the central nervous system.</li>
+</ul></li>
+<li><strong>New Relapse (New SU)</strong>:
+<ul>
+<li>New SU refers to cases in which a patient who was previously treated for TB and considered cured or successfully treated experiences a recurrence of TB. This is often called a relapse.</li>
+<li>Relapse cases indicate that the initial treatment may not have been entirely successful or that the patient has been reinfected with TB.</li>
+</ul></li>
+<li><strong>New Other (New OTH)</strong>:
+<ul>
+<li>New OTH represents other newly diagnosed TB cases that do not fit into the specific categories mentioned above. It is a catch-all category for cases that do not fall into the new SP, new SN, new EP, or new SU categories.</li>
+</ul></li>
+</ol>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_grouped <span class="ot">&lt;-</span> df_tb  <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="fu">across</span>(new_sp<span class="sc">:</span>new_oth, <span class="sc">~</span><span class="fu">replace_na</span>(., <span class="dv">0</span>))) <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(year,country) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">Metric =</span> new_sp <span class="sc">+</span> new_sn <span class="sc">+</span> new_su <span class="sc">+</span> new_ep <span class="sc">+</span> new_oth)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df_aus <span class="ot">&lt;-</span> df_grouped <span class="sc">%&gt;%</span> <span class="fu">filter</span>(country<span class="sc">==</span><span class="st">"Australia"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span>df_aus,<span class="fu">aes</span>(<span class="at">x =</span>year,<span class="at">y =</span> Metric)) <span class="sc">+</span> <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="Q3_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ol start="4" type="a">
 <li>Subset the data to Australia and five of it’s nearest neighbours (Fiji, Indonesia, New Zealand, Papua New Guinea, and East Timor). Make an appropriate plot to compare the incidence across countries.</li>
 <li>What is wrong with directly comparing the incidence? What information is missing in order to make the comparison. Without adding new data, come up with a transformation of counts that will fix the problem. Make a new plot, and describe how TB is occurring similarly or differently in Australia and it’s nearest neighbours.</li>
 </ol>

@@ -31,5 +31,41 @@ b. What is the earliest and latest years in the data?
 The earliest year of the study is __`r min(df_tb$year)`__ and the latest year of study is __`r max(df_tb$year)`__.
 
 c. There are numerous ways that TB is detected, and this is reflected in the data as `new_sp`, `new_sn`, `new_su`, `new_ep` and `new_oth`. Create a new variable which sums these values for each year, for each country. Make an appropriate plot to show the counts for Australia over time. Describe the pattern, and try to explain it, which might require searching for more information about TB reporting.
+
+<div class="alert alert-block alert-warning">
+The terms "new_sp," "new_sn," "new_su," "new_ep," and "new_oth" are commonly used abbreviations and codes in the context of tuberculosis (TB) detection and reporting. They are part of the World Health Organization's (WHO) TB case notification system, which categorizes TB cases into different types based on clinical and epidemiological characteristics. These categories help in tracking and managing TB cases effectively. Here's what each of these terms typically represents:
+
+1. **New Smear-Positive (New SP)**:
+   - New SP refers to newly diagnosed TB cases where sputum smear microscopy (a laboratory test) has confirmed the presence of acid-fast bacilli (AFB), which are indicative of active TB disease.
+   - "Smear-positive" means that TB bacteria are present in the patient's sputum and can be detected under a microscope. This category is important because smear-positive cases are more infectious and require immediate treatment to reduce transmission.
+
+2. **New Smear-Negative (New SN)**:
+   - New SN refers to newly diagnosed TB cases where sputum smear microscopy did not detect AFB, but the patient's clinical symptoms and other diagnostic methods (e.g., culture or molecular tests) suggest active TB disease.
+   - Some TB cases may not have detectable AFB in their sputum, especially in the early stages of the disease. These cases are still considered infectious and are treated accordingly.
+
+3. **New Extrapulmonary (New EP)**:
+   - New EP refers to newly diagnosed TB cases where the disease is located outside the lungs (extrapulmonary). TB can affect various organs and tissues in the body, and extrapulmonary cases occur when TB is found in places other than the respiratory system.
+   - Common sites of extrapulmonary TB include lymph nodes, bones, joints, and the central nervous system.
+
+4. **New Relapse (New SU)**:
+   - New SU refers to cases in which a patient who was previously treated for TB and considered cured or successfully treated experiences a recurrence of TB. This is often called a relapse.
+   - Relapse cases indicate that the initial treatment may not have been entirely successful or that the patient has been reinfected with TB.
+
+5. **New Other (New OTH)**:
+   - New OTH represents other newly diagnosed TB cases that do not fit into the specific categories mentioned above. It is a catch-all category for cases that do not fall into the new SP, new SN, new EP, or new SU categories.
+
+</div>
+
+```{r}
+df_grouped <- df_tb  %>% mutate(across(new_sp:new_oth, ~replace_na(., 0))) %>% group_by(year,country) %>% mutate(Metric = new_sp + new_sn + new_su + new_ep + new_oth)
+df_aus <- df_grouped %>% filter(country=="Australia")
+```
+
+```{r}
+
+ggplot(data =df_aus,aes(x =year,y = Metric)) + geom_line()
+```
+
+
 d. Subset the data to Australia and five of it's nearest neighbours (Fiji, Indonesia, New Zealand, Papua New Guinea, and East Timor). Make an appropriate plot to compare the incidence across countries. 
 e. What is wrong with directly comparing the incidence? What information is missing in order to make the comparison. Without adding new data, come up with a transformation of counts that will fix the problem. Make a new plot, and describe how TB is occurring similarly or differently in Australia and it's nearest neighbours.
