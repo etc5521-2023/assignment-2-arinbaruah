@@ -177,7 +177,8 @@ Make appropriate plots to explore the relationship of run time against ratings.
 
 ```{r}
 
-pl3 <- ggplot(data=movies_2023,aes(x = averageRating,y = runtimeMinutes)) + geom_bin2d() + theme(axis.text.y = element_text(size = 3))
+
+pl3 <- ggplot(data=movies_2023 %>% arrange(runtimeMinutes),aes(y = averageRating,x = runtimeMinutes)) + geom_hex() + theme(axis.text.x = element_text(size = 3))
 pl3
 ```
 

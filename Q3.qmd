@@ -1,9 +1,20 @@
 ---
 title: "Q3"
-author: "YOUR NAME HERE"
+author: "Arindom Baruah (32779267)"
 format: html
 ---
+```{r echo=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(ggpubr)
+library(ggthemes)
+library(ggExtra)
+```
 
+
+```{r echo=FALSE}
+df_tb <- read_csv("data/TB_notifications_2023-08-21.csv")
+```
 ## Exercise 3
 
 The World Health Organisation (WHO) routinely reports statistics on tuberculosis. WHO says: "Every year, 10 million people fall ill with tuberculosis (TB). Despite being a preventable and curable disease, 1.5 million people die from TB each year – making it the world’s top infectious killer." This question is about the statistics reported by WHO on TB notifications. 
@@ -11,7 +22,14 @@ The World Health Organisation (WHO) routinely reports statistics on tuberculosis
 The data and dictionary were downloaded from https://www.who.int/teams/global-tuberculosis-programme/data. We have made them available in the template repo.
 
 a. How many countries are recorded?
+
+There are a total of __`r length(unique(df_tb$country,na.rm=TRUE))`__ countries recorded in the dataset.
+
+
 b. What is the earliest and latest years in the data?
+
+The earliest year of the study is __`r min(df_tb$year)`__ and the latest year of study is __`r max(df_tb$year)`__.
+
 c. There are numerous ways that TB is detected, and this is reflected in the data as `new_sp`, `new_sn`, `new_su`, `new_ep` and `new_oth`. Create a new variable which sums these values for each year, for each country. Make an appropriate plot to show the counts for Australia over time. Describe the pattern, and try to explain it, which might require searching for more information about TB reporting.
 d. Subset the data to Australia and five of it's nearest neighbours (Fiji, Indonesia, New Zealand, Papua New Guinea, and East Timor). Make an appropriate plot to compare the incidence across countries. 
 e. What is wrong with directly comparing the incidence? What information is missing in order to make the comparison. Without adding new data, come up with a transformation of counts that will fix the problem. Make a new plot, and describe how TB is occurring similarly or differently in Australia and it's nearest neighbours.

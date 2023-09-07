@@ -341,7 +341,7 @@ Question F
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pl3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>movies_2023,<span class="fu">aes</span>(<span class="at">x =</span> averageRating,<span class="at">y =</span> runtimeMinutes)) <span class="sc">+</span> <span class="fu">geom_bin2d</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">3</span>))</span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pl3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>movies_2023 <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(runtimeMinutes),<span class="fu">aes</span>(<span class="at">y =</span> averageRating,<span class="at">x =</span> runtimeMinutes)) <span class="sc">+</span> <span class="fu">geom_hex</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">3</span>))</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pl3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="Q2_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
