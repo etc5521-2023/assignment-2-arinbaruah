@@ -1,7 +1,10 @@
 ---
 title: "Q4"
-author: "YOUR NAME HERE"
+author: "Arindom Baruah (32779267)"
 format: html
+execute: 
+  warning: false
+  message: false
 ---
 
 ## Exercise 4
@@ -9,15 +12,61 @@ format: html
 A very successful 2023 Women's World Cup soccer was held in Australia and New Zealand in the last two months. Data from the last one held in 2019 can be downloaded from R using the package `StatsBombR`. The data for the Australia vs Brazil match have been downloaded and processed and made available in the file `aus_brazil.rda`. The match was played on June 14, 2019, in Stade de la Mosson, in France, and Australia won 3-2. This question explores the match data. It will help if you install these packages:
 
 ```{r}
-#| eval: false
-remotes::install_github("statsbomb/SDMTools")
-remotes::install_github("statsbomb/StatsBombR")
-devtools::install_github("FCrSTATS/SBpitch")
+library(tidyverse)
+library(plotly)
+library(rvest)
+library(StatsBombR)
+library(SBpitch)
+library(ggplot2)
+```
+
+```{r}
+#| echo: false
+load("data/aus_brazil.rda")
 ```
 
 A really nice introduction to working with the data is available [here](https://statsbomb.com/wp-content/uploads/2022/08/Working-with-R.pdf). 
 
 a. Make a plot of shots on goal made by each team that looks like the following, and include your cleanly written code. (Note: 1. `location` has the position from which passes were made, in the form of an array. You can access the x and y values using `location.x` and `location.y`. 2. The positions have been processed so both teams are playing from left to right, so that it is easy to compare their play.)
+
+
+Answer A
+
+In order to visualise the shots on goal, we will filter the data with the following shot outcomes:
+
+1. __Shots which led to goals__.
+2. __Shots which were saved by the goalkeeper__.
+
+The above two shot outcomes can be considered as "shots on goal" and will be visualised on the pitch through the code below.
+
+```{r}
+#| label: fig-goal
+#| fig-cap: "Total shots on goal"
+on_goal_conditions <- c("Goal","Saved")
+shots_on_goal <- aus_brazil %>%
+filter(shot.outcome.name %in% (on_goal_conditions)) %>% 
+  select(c(location.x,location.y,team.name,player.name)) %>% mutate(team_name = case_match(team.name,"Australia Women's"~"Australia (Matildas)",
+                                                                                          "Brazil Women's"~"Brazil (Seleção)"))
+
+
+pl1 <- create_Pitch() +
+geom_point(data = shots_on_goal, aes(x = location.x, y = location.y,color=team_name),size=5) + 
+  labs(color="Team name",
+       title = "Australia Vs Brazil, Shots on target", 
+       subtitle = "Stadium De La Mosson, France,Women's World Cup, 2019") + 
+  scale_y_reverse() + coord_fixed(ratio = 105/100) + 
+  scale_color_manual(values=c('#FFCD00','Blue')) + theme(legend.position = "bottom") 
+
+pl1
+```
+
+Figure @fig-goal illustrates the number of shots on target in the match of Australia Vs Brazil for the Women's World Cup. Following are the key observations:
+
+1. There were a total of 8 shots on target from both the sides.
+2. Of these 8 shots, Australia shot 5 goals on target while Brazil shot 3 goals on target.
+3. The above analysis can be further confirmed through the google analytics and can be referred to [here](https://www.google.com/search?q=australia+vs+brazil+women%27s+worldcup+2019&client=safari&sca_esv=563943516&rls=en&sxsrf=AB5stBiFbjHF5qvMujaWoiD1OnnyX9Bmpg%3A1694243015849&ei=xxj8ZOevM-C02roP8Im9mAI&ved=0ahUKEwinr_2I-5yBAxVgmlYBHfBEDyMQ4dUDCBA&uact=5&oq=australia+vs+brazil+women%27s+worldcup+2019&gs_lp=Egxnd3Mtd2l6LXNlcnAiKWF1c3RyYWxpYSB2cyBicmF6aWwgd29tZW4ncyB3b3JsZGN1cCAyMDE5MgcQIRigARgKMgcQIRigARgKMgcQIRigARgKMgoQIRgWGB4YHRgKMgoQIRgWGB4YHRgKSLpMUABY7UpwAngBkAEAmAHSAqABgDuqAQgwLjM5LjMuMbgBA8gBAPgBAcICCBAuGIoFGJECwgIOEAAYigUYsQMYgwEYkQLCAgsQLhiABBixAxiDAcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgsQABiKBRixAxiDAcICCxAuGIAEGMcBGNEDwgIXEC4YigUYkQIYlwUY3AQY3gQY3wTYAQHCAgQQIxgnwgIIEAAYigUYkQLCAgcQABiKBRhDwgIQEC4YigUYsQMYxwEY0QMYQ8ICDRAuGIoFGMcBGNEDGEPCAgcQLhiKBRhDwgIHECMYigUYJ8ICDRAuGIoFGLEDGIMBGEPCAgoQLhiKBRixAxhDwgIKEAAYigUYsQMYQ8ICDRAAGIoFGLEDGIMBGEPCAgsQLhiDARixAxiABMICBRAAGIAEwgILEC4YgAQYxwEYrwHCAgsQABiKBRixAxiRAsICCBAAGIAEGLEDwgILEC4YgwEYsQMYigXCAgsQLhiKBRixAxiDAcICChAAGIAEGBQYhwLCAgYQABgWGB7CAggQABiKBRiGA8ICCBAAGBYYHhgPwgIHEAAYDRiABMICBBAhGBXCAggQIRgWGB4YHeIDBBgAIEGIBgG6BgYIARABGBQ&sclient=gws-wiz-serp#sie=m;/g/11gxvrqfj4;2;/m/01kglk;dt;fp;1;;;). 
+
+
 b. Summarise the shots for each country by player. Would you say that shots were a team effort or dominated by certain players?
 c. Now let's take a look at passes. The location from which passes are made could be characteristic of a team. Make a lineup to test whether the position from which a pass was made was different between Australia and Brazil. Conduct a visual inference analysis to determine if the actual plot can be distinguished from the null plots. Report your $p$-value, after asking 8 of your friends to judge your lineup, and summarise your findings. 
 d. The type of passes can also be characteristic of a team's play. Explore this with the variable `pass.length`, using a visual inference analysis. 
