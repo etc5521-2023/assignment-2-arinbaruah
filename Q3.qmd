@@ -104,3 +104,49 @@ Some important observations are as follows:
 
 
 e. What is wrong with directly comparing the incidence? What information is missing in order to make the comparison. Without adding new data, come up with a transformation of counts that will fix the problem. Make a new plot, and describe how TB is occurring similarly or differently in Australia and it's nearest neighbours.
+
+Answer E
+
+Based on our analysis in the previous section, we can observe the following issues:
+
+1. The number of incidences are quite varied for the 6 countries. While on the face of it, it might look like countries with less incidences are doing better, it maybe a misleading statistic to provide any conclusions.
+
+2. The major issue we can observe in @fig-ausnei is the fact that the plot does not give us an idea of the affected population in the various countries. Each country has __a different size of population__ and it is expected for countries with larger population to have higher incidences. Hence, comparing the incidences may not be the right metric to focus on.
+
+3. Instead of using the incidence (count of new cases per year), we can transform our statistic to prevalence (total count of cases per population of the country).
+
+4. We can use the population statistics provided by The Worldbank which can be accessed [here](https://data.worldbank.org/indicator/SP.POP.TOTL)
+
+```{r}
+df_pop <- read_csv("data/world_population.csv",skip=3)
+df_pop_long <- df_pop %>% pivot_longer(cols = "1960":"2022",names_to = "year",values_to = "Population") %>% select(c("Country Name","year","Population"))
+df_pop_long$year <- as.double(df_pop_long$year)
+df_pop_long <- df_pop_long %>% rename("country" = "Country Name")
+df_grouped <- left_join(df_grouped,df_pop_long)
+
+```
+
+```{r}
+#| label: fig-perc
+#| fig-cap: "Percentage of population affected by TB"
+
+
+df_neighbors <- df_grouped %>% filter(country %in% countries)
+df_neighbors <- df_neighbors %>% group_by(country) %>% mutate("Total_cases" = cumsum(Metric)) %>% select(c("country","year","Total_cases","Population"))
+
+
+
+pl4 <- ggplot(data = df_neighbors,aes(x =year,
+                               y = 100*Total_cases/Population)) + geom_line() + geom_point(color='darkred')+ 
+  theme_classic() + labs(x = "Year",
+                         y = "Percentage of affected population",
+                         caption = "Source: WHO")  + theme(plot.title = element_text(hjust = 0.5)) + 
+  facet_wrap(~country) + ggtitle("Percentage of population affected by TB") 
+ggplotly(pl4)
+```
+
+Upon successful transformation from incidence to prevalence as illustrated by @fig-perc, we can make the following observations:
+
+1. The countries of Papua New Guinea, Timor-Leste and Indonesia are significantly affected by the occurence of TB with a sizeable percentage of population who have been reported to suffer from this disease. These countries are closely followed by Fiji. One of the causes for the prevalence of such a disease could be due to lack of healthcare resources.
+2. On the other hand, a very small population of Australia and New Zealand have been observed to be affected by the TB disease. These are relatively wealthier economies and have a robust healtcare system which has been successful to curb the TB disease to a very small population.
+
