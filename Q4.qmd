@@ -81,7 +81,8 @@ filter(shot.outcome.name != is.na(shot.outcome.name)) %>%
 
 total_shots_grouped <- total_shots %>% group_by(team_name,player.name) %>% mutate("Shot_incident" = 1) %>% summarise(Total_shots = sum(Shot_incident))
 pl2 <- ggplot(data = total_shots_grouped,aes(x = reorder(player.name,Total_shots),y = Total_shots)) + 
-  geom_col(color='black') + geom_col(data = ~filter(.x, Total_shots >= 2,team_name == "Australia (Matildas)"),fill = "#FFCD00") + geom_col(data = ~filter(.x, Total_shots >= 2,team_name == "Brazil (Seleção)"),fill = "blue")+ coord_flip() + facet_wrap(~team_name,scales = "free_y") + theme_classic() + labs(y = "Number of shots",x = "Player")
+  geom_col(color='black') + geom_col(data = ~filter(.x, Total_shots >= 2,team_name == "Australia (Matildas)"),fill = "#FFCD00") + geom_col(data = ~filter(.x, Total_shots >= 2,team_name == "Brazil (Seleção)"),fill = "blue")+ coord_flip() + facet_wrap(~team_name,scales = "free_y") + theme_classic() + labs(y = "Number of shots",x = "Player",title = "Australia Vs Brazil, Total shots registered", 
+       subtitle = "Stadium De La Mosson, France,Women's World Cup, 2019")
 pl2
 ```
 @fig-playershot illustrates the number of shots registered by each player of each country. Following are our key observations:
@@ -95,4 +96,143 @@ pl2
 
 
 c. Now let's take a look at passes. The location from which passes are made could be characteristic of a team. Make a lineup to test whether the position from which a pass was made was different between Australia and Brazil. Conduct a visual inference analysis to determine if the actual plot can be distinguished from the null plots. Report your $p$-value, after asking 8 of your friends to judge your lineup, and summarise your findings. 
+
+
+
+```{r}
+#| label: fig-passausall
+#| fig-cap: "Total complete passes by Australia"
+passes_aus = aus_brazil %>%
+filter(type.name=="Pass" & is.na(pass.outcome.name) & team.name == "Australia Women's") 
+
+
+create_Pitch() +
+geom_segment(data = passes_aus, aes(x = location.x, y = location.y,
+xend = pass.end_location.x, yend = pass.end_location.y), lineend = "round", size = 0.5, colour = "#FFCD00", arrow =
+arrow(length = unit(0.07, "inches"), ends = "last", type = "open")) + labs(title = "All passes of Australia",subtitle = "Stadium De La Mosson, France,Women's World Cup, 2019")
+
+
+```
+
+
+```{r}
+#| label: fig-passbraall
+#| fig-cap: "Total complete passes by Brazil"
+passes_bra = aus_brazil %>%
+filter(type.name=="Pass" & is.na(pass.outcome.name) & team.name == "Brazil Women's") 
+
+create_Pitch() +
+geom_segment(data = passes_bra, aes(x = location.x, y = location.y,
+xend = pass.end_location.x, yend = pass.end_location.y), lineend = "round", size = 0.5, colour = "blue", arrow =
+arrow(length = unit(0.07, "inches"), ends = "last", type = "open")) + labs(title = "All passes of Brazil",
+                                                                           subtitle = "Stadium De La Mosson, France,Women's World Cup, 2019")
+
+```
+
+Upon analysing the completed passes made by Australia and Brazil throug @fig-passausall and @fig-passbraall, we observe the following:
+
+1. __Australia made more number of successful passes as compared to Brazil__ as can be observed through the density of the arrows in the two figures.
+2. __Australia were observed to effectively use the left and right flanks__.
+3. On the other hand, __Brazil were observed to overload the right flank but not use the left flank as much__.
+4. Australia were __also observed to play centrally with more passes in the middle of the field as compared to Brazil__.
+
+
+
+
+
 d. The type of passes can also be characteristic of a team's play. Explore this with the variable `pass.length`, using a visual inference analysis. 
+
+Answer D
+
+
+
+```{r}
+#| label: fig-denspasslength
+#| fig-cap: "Distribution of pass lengths"
+
+pl5 <- ggplot(data = aus_brazil %>% mutate(team_name = case_match(team.name,"Australia Women's"~"Australia (Matildas)",
+                                                                                          "Brazil Women's"~"Brazil (Seleção)")),aes(x = pass.length,fill = team_name)) + theme_classic() + geom_density(alpha=0.4) + labs(x = "Pass length (m)",y = "Probability density",fill = "Team name") + scale_fill_manual(values=c('#FFCD00','Blue')) 
+pl5
+```
+Based on the analysis of @fig-denspasslength, we can observe the pass lengths of both teams are __very similar__. However, these passes could be in different locations on the pitch. Hence, we need to explore this variable further.
+
+```{r}
+#| label: fig-longpassauskey
+#| fig-cap: "Long passes by Australia"
+passes_bra = aus_brazil %>%
+filter(type.name=="Pass" & is.na(pass.outcome.name) & team.name == "Australia Women's" & pass.length > 40) 
+
+create_Pitch() +
+geom_segment(data = passes_bra, aes(x = location.x, y = location.y,
+xend = pass.end_location.x, yend = pass.end_location.y), lineend = "round", size = 0.5, colour = "#FFCD00", arrow =
+arrow(length = unit(0.07, "inches"), ends = "last", type = "open")) + labs(title = "Long passes of Australia",
+                                                                           subtitle = "Stadium De La Mosson, France,Women's World Cup, 2019")
+```
+
+
+
+
+
+```{r}
+#| label: fig-longpassbrakey
+#| fig-cap: "Long passes by Brazil"
+passes_bra = aus_brazil %>%
+filter(type.name=="Pass" & is.na(pass.outcome.name) & team.name == "Brazil Women's" & pass.length > 40) 
+
+create_Pitch() +
+geom_segment(data = passes_bra, aes(x = location.x, y = location.y,
+xend = pass.end_location.x, yend = pass.end_location.y), lineend = "round", size = 0.5, colour = "blue", arrow =
+arrow(length = unit(0.07, "inches"), ends = "last", type = "open")) + labs(title = "Long passes of Brazil",
+                                                                           subtitle = "Stadium De La Mosson, France,Women's World Cup, 2019")
+```
+
+
+Based on our analysis of @fig-longpassauskey and @fig-longpassbrakey, we can make the following observations:
+
+1. Most long passes for Australia originated from the Goalkeeper's position
+2. On the other hand, Brazil's long passes originated from the defense. This suggests that Brazil employed short goal kicks while Australia flung more balls from the goalkeeping position to an attacking position.
+
+
+
+```{r}
+#| label: fig-passauskey
+#| fig-cap: "Key passes by Australia"
+
+passes_aus = aus_brazil %>%
+filter(type.name=="Pass" & is.na(pass.outcome.name) & team.name == "Australia Women's") %>% #1
+filter(pass.end_location.x>=102 & pass.end_location.y<=62 & # Only key attacking passes
+pass.end_location.y>=18)
+
+
+create_Pitch() +
+geom_segment(data = passes_aus, aes(x = location.x, y = location.y,
+xend = pass.end_location.x, yend = pass.end_location.y), lineend = "round", size = 0.5, colour = "#FFCD00", arrow =
+arrow(length = unit(0.07, "inches"), ends = "last", type = "open")) + labs(title = "Key attacking passes of Australia",
+                                                                           subtitle = "Stadium De La Mosson, France,Women's World Cup, 2019")
+
+```
+
+```{r}
+#| label: fig-passbrakey
+#| fig-cap: "Key passes by Brazil"
+
+passes_bra = aus_brazil %>%
+filter(type.name=="Pass" & is.na(pass.outcome.name) & team.name == "Brazil Women's") %>% #1
+filter(pass.end_location.x>=102 & pass.end_location.y<=62 & # Only key attacking passes
+pass.end_location.y>=18)
+
+
+create_Pitch() +
+geom_segment(data = passes_bra, aes(x = location.x, y = location.y,
+xend = pass.end_location.x, yend = pass.end_location.y), lineend = "round", size = 0.5, colour = "blue", arrow =
+arrow(length = unit(0.07, "inches"), ends = "last", type = "open")) + labs(title = "Key attacking passes of Brazil",
+                                                                           subtitle = "Stadium De La Mosson, France,Women's World Cup, 2019")
+
+```
+
+Upon analysing the key passes as illustrated by @fig-passauskey and @fig-passbrakey, we can make the following observations:
+
+1. Australia was able to make more number of key passes in the box as compared to Brazil.
+2. Brazil were able to make only 4 outfield passes in the box while the other 2 were attributed to corners.
+
+

@@ -169,8 +169,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>total_shots_grouped <span class="ot">&lt;-</span> total_shots <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(team_name,player.name) <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="st">"Shot_incident"</span> <span class="ot">=</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">Total_shots =</span> <span class="fu">sum</span>(Shot_incident))</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>pl2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> total_shots_grouped,<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(player.name,Total_shots),<span class="at">y =</span> Total_shots)) <span class="sc">+</span> </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">color=</span><span class="st">'black'</span>) <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="at">data =</span> <span class="sc">~</span><span class="fu">filter</span>(.x, Total_shots <span class="sc">&gt;=</span> <span class="dv">2</span>,team_name <span class="sc">==</span> <span class="st">"Australia (Matildas)"</span>),<span class="at">fill =</span> <span class="st">"#FFCD00"</span>) <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="at">data =</span> <span class="sc">~</span><span class="fu">filter</span>(.x, Total_shots <span class="sc">&gt;=</span> <span class="dv">2</span>,team_name <span class="sc">==</span> <span class="st">"Brazil (Seleção)"</span>),<span class="at">fill =</span> <span class="st">"blue"</span>)<span class="sc">+</span> <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>team_name,<span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Number of shots"</span>,<span class="at">x =</span> <span class="st">"Player"</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>pl2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">color=</span><span class="st">'black'</span>) <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="at">data =</span> <span class="sc">~</span><span class="fu">filter</span>(.x, Total_shots <span class="sc">&gt;=</span> <span class="dv">2</span>,team_name <span class="sc">==</span> <span class="st">"Australia (Matildas)"</span>),<span class="at">fill =</span> <span class="st">"#FFCD00"</span>) <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="at">data =</span> <span class="sc">~</span><span class="fu">filter</span>(.x, Total_shots <span class="sc">&gt;=</span> <span class="dv">2</span>,team_name <span class="sc">==</span> <span class="st">"Brazil (Seleção)"</span>),<span class="at">fill =</span> <span class="st">"blue"</span>)<span class="sc">+</span> <span class="fu">coord_flip</span>() <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>team_name,<span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Number of shots"</span>,<span class="at">x =</span> <span class="st">"Player"</span>,<span class="at">title =</span> <span class="st">"Australia Vs Brazil, Total shots registered"</span>, </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Stadium De La Mosson, France,Women's World Cup, 2019"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>pl2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-playershot" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -191,7 +192,155 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <ol start="3" type="a">
 <li>Now let’s take a look at passes. The location from which passes are made could be characteristic of a team. Make a lineup to test whether the position from which a pass was made was different between Australia and Brazil. Conduct a visual inference analysis to determine if the actual plot can be distinguished from the null plots. Report your <span class="math inline">\(p\)</span>-value, after asking 8 of your friends to judge your lineup, and summarise your findings.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>passes_aus <span class="ot">=</span> aus_brazil <span class="sc">%&gt;%</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(type.name<span class="sc">==</span><span class="st">"Pass"</span> <span class="sc">&amp;</span> <span class="fu">is.na</span>(pass.outcome.name) <span class="sc">&amp;</span> team.name <span class="sc">==</span> <span class="st">"Australia Women's"</span>) </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">create_Pitch</span>() <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_segment</span>(<span class="at">data =</span> passes_aus, <span class="fu">aes</span>(<span class="at">x =</span> location.x, <span class="at">y =</span> location.y,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="at">xend =</span> pass.end_location.x, <span class="at">yend =</span> pass.end_location.y), <span class="at">lineend =</span> <span class="st">"round"</span>, <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">colour =</span> <span class="st">"#FFCD00"</span>, <span class="at">arrow =</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.07</span>, <span class="st">"inches"</span>), <span class="at">ends =</span> <span class="st">"last"</span>, <span class="at">type =</span> <span class="st">"open"</span>)) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"All passes of Australia"</span>,<span class="at">subtitle =</span> <span class="st">"Stadium De La Mosson, France,Women's World Cup, 2019"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-passausall" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Q4_files/figure-html/fig-passausall-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;3: Total complete passes by Australia</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>passes_bra <span class="ot">=</span> aus_brazil <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(type.name<span class="sc">==</span><span class="st">"Pass"</span> <span class="sc">&amp;</span> <span class="fu">is.na</span>(pass.outcome.name) <span class="sc">&amp;</span> team.name <span class="sc">==</span> <span class="st">"Brazil Women's"</span>) </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">create_Pitch</span>() <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_segment</span>(<span class="at">data =</span> passes_bra, <span class="fu">aes</span>(<span class="at">x =</span> location.x, <span class="at">y =</span> location.y,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="at">xend =</span> pass.end_location.x, <span class="at">yend =</span> pass.end_location.y), <span class="at">lineend =</span> <span class="st">"round"</span>, <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">colour =</span> <span class="st">"blue"</span>, <span class="at">arrow =</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.07</span>, <span class="st">"inches"</span>), <span class="at">ends =</span> <span class="st">"last"</span>, <span class="at">type =</span> <span class="st">"open"</span>)) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"All passes of Brazil"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>                                                                           <span class="at">subtitle =</span> <span class="st">"Stadium De La Mosson, France,Women's World Cup, 2019"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-passbraall" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Q4_files/figure-html/fig-passbraall-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;4: Total complete passes by Brazil</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Upon analysing the completed passes made by Australia and Brazil throug <a href="#fig-passausall">Figure&nbsp;3</a> and <a href="#fig-passbraall">Figure&nbsp;4</a>, we observe the following:</p>
+<ol type="1">
+<li><strong>Australia made more number of successful passes as compared to Brazil</strong> as can be observed through the density of the arrows in the two figures.</li>
+<li><strong>Australia were observed to effectively use the left and right flanks</strong>.</li>
+<li>On the other hand, <strong>Brazil were observed to overload the right flank but not use the left flank as much</strong>.</li>
+<li>Australia were <strong>also observed to play centrally with more passes in the middle of the field as compared to Brazil</strong>.</li>
+</ol>
+<ol start="4" type="a">
 <li>The type of passes can also be characteristic of a team’s play. Explore this with the variable <code>pass.length</code>, using a visual inference analysis.</li>
+</ol>
+<p>Answer D</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pl5 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> aus_brazil <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">team_name =</span> <span class="fu">case_match</span>(team.name,<span class="st">"Australia Women's"</span><span class="sc">~</span><span class="st">"Australia (Matildas)"</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>                                                                                          <span class="st">"Brazil Women's"</span><span class="sc">~</span><span class="st">"Brazil (Seleção)"</span>)),<span class="fu">aes</span>(<span class="at">x =</span> pass.length,<span class="at">fill =</span> team_name)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> <span class="fu">geom_density</span>(<span class="at">alpha=</span><span class="fl">0.4</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Pass length (m)"</span>,<span class="at">y =</span> <span class="st">"Probability density"</span>,<span class="at">fill =</span> <span class="st">"Team name"</span>) <span class="sc">+</span> <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">'#FFCD00'</span>,<span class="st">'Blue'</span>)) </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>pl5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-denspasslength" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Q4_files/figure-html/fig-denspasslength-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;5: Distribution of pass lengths</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Based on the analysis of <a href="#fig-denspasslength">Figure&nbsp;5</a>, we can observe the pass lengths of both teams are <strong>very similar</strong>. However, these passes could be in different locations on the pitch. Hence, we need to explore this variable further.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>passes_bra <span class="ot">=</span> aus_brazil <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(type.name<span class="sc">==</span><span class="st">"Pass"</span> <span class="sc">&amp;</span> <span class="fu">is.na</span>(pass.outcome.name) <span class="sc">&amp;</span> team.name <span class="sc">==</span> <span class="st">"Australia Women's"</span> <span class="sc">&amp;</span> pass.length <span class="sc">&gt;</span> <span class="dv">40</span>) </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">create_Pitch</span>() <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_segment</span>(<span class="at">data =</span> passes_bra, <span class="fu">aes</span>(<span class="at">x =</span> location.x, <span class="at">y =</span> location.y,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="at">xend =</span> pass.end_location.x, <span class="at">yend =</span> pass.end_location.y), <span class="at">lineend =</span> <span class="st">"round"</span>, <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">colour =</span> <span class="st">"#FFCD00"</span>, <span class="at">arrow =</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.07</span>, <span class="st">"inches"</span>), <span class="at">ends =</span> <span class="st">"last"</span>, <span class="at">type =</span> <span class="st">"open"</span>)) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Long passes of Australia"</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                                                                           <span class="at">subtitle =</span> <span class="st">"Stadium De La Mosson, France,Women's World Cup, 2019"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-longpassauskey" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Q4_files/figure-html/fig-longpassauskey-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;6: Long passes by Australia</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>passes_bra <span class="ot">=</span> aus_brazil <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(type.name<span class="sc">==</span><span class="st">"Pass"</span> <span class="sc">&amp;</span> <span class="fu">is.na</span>(pass.outcome.name) <span class="sc">&amp;</span> team.name <span class="sc">==</span> <span class="st">"Brazil Women's"</span> <span class="sc">&amp;</span> pass.length <span class="sc">&gt;</span> <span class="dv">40</span>) </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">create_Pitch</span>() <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_segment</span>(<span class="at">data =</span> passes_bra, <span class="fu">aes</span>(<span class="at">x =</span> location.x, <span class="at">y =</span> location.y,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="at">xend =</span> pass.end_location.x, <span class="at">yend =</span> pass.end_location.y), <span class="at">lineend =</span> <span class="st">"round"</span>, <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">colour =</span> <span class="st">"blue"</span>, <span class="at">arrow =</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.07</span>, <span class="st">"inches"</span>), <span class="at">ends =</span> <span class="st">"last"</span>, <span class="at">type =</span> <span class="st">"open"</span>)) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Long passes of Brazil"</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>                                                                           <span class="at">subtitle =</span> <span class="st">"Stadium De La Mosson, France,Women's World Cup, 2019"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-longpassbrakey" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Q4_files/figure-html/fig-longpassbrakey-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;7: Long passes by Brazil</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Based on our analysis of <a href="#fig-longpassauskey">Figure&nbsp;6</a> and <a href="#fig-longpassbrakey">Figure&nbsp;7</a>, we can make the following observations:</p>
+<ol type="1">
+<li>Most long passes for Australia originated from the Goalkeeper’s position</li>
+<li>On the other hand, Brazil’s long passes originated from the defense. This suggests that Brazil employed short goal kicks while Australia flung more balls from the goalkeeping position to an attacking position.</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>passes_aus <span class="ot">=</span> aus_brazil <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(type.name<span class="sc">==</span><span class="st">"Pass"</span> <span class="sc">&amp;</span> <span class="fu">is.na</span>(pass.outcome.name) <span class="sc">&amp;</span> team.name <span class="sc">==</span> <span class="st">"Australia Women's"</span>) <span class="sc">%&gt;%</span> <span class="co">#1</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(pass.end_location.x<span class="sc">&gt;=</span><span class="dv">102</span> <span class="sc">&amp;</span> pass.end_location.y<span class="sc">&lt;=</span><span class="dv">62</span> <span class="sc">&amp;</span> <span class="co"># Only key attacking passes</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>pass.end_location.y<span class="sc">&gt;=</span><span class="dv">18</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">create_Pitch</span>() <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_segment</span>(<span class="at">data =</span> passes_aus, <span class="fu">aes</span>(<span class="at">x =</span> location.x, <span class="at">y =</span> location.y,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="at">xend =</span> pass.end_location.x, <span class="at">yend =</span> pass.end_location.y), <span class="at">lineend =</span> <span class="st">"round"</span>, <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">colour =</span> <span class="st">"#FFCD00"</span>, <span class="at">arrow =</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.07</span>, <span class="st">"inches"</span>), <span class="at">ends =</span> <span class="st">"last"</span>, <span class="at">type =</span> <span class="st">"open"</span>)) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Key attacking passes of Australia"</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>                                                                           <span class="at">subtitle =</span> <span class="st">"Stadium De La Mosson, France,Women's World Cup, 2019"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-passauskey" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Q4_files/figure-html/fig-passauskey-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;8: Key passes by Australia</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>passes_bra <span class="ot">=</span> aus_brazil <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(type.name<span class="sc">==</span><span class="st">"Pass"</span> <span class="sc">&amp;</span> <span class="fu">is.na</span>(pass.outcome.name) <span class="sc">&amp;</span> team.name <span class="sc">==</span> <span class="st">"Brazil Women's"</span>) <span class="sc">%&gt;%</span> <span class="co">#1</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(pass.end_location.x<span class="sc">&gt;=</span><span class="dv">102</span> <span class="sc">&amp;</span> pass.end_location.y<span class="sc">&lt;=</span><span class="dv">62</span> <span class="sc">&amp;</span> <span class="co"># Only key attacking passes</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>pass.end_location.y<span class="sc">&gt;=</span><span class="dv">18</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="fu">create_Pitch</span>() <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_segment</span>(<span class="at">data =</span> passes_bra, <span class="fu">aes</span>(<span class="at">x =</span> location.x, <span class="at">y =</span> location.y,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="at">xend =</span> pass.end_location.x, <span class="at">yend =</span> pass.end_location.y), <span class="at">lineend =</span> <span class="st">"round"</span>, <span class="at">size =</span> <span class="fl">0.5</span>, <span class="at">colour =</span> <span class="st">"blue"</span>, <span class="at">arrow =</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.07</span>, <span class="st">"inches"</span>), <span class="at">ends =</span> <span class="st">"last"</span>, <span class="at">type =</span> <span class="st">"open"</span>)) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Key attacking passes of Brazil"</span>,</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                                                                           <span class="at">subtitle =</span> <span class="st">"Stadium De La Mosson, France,Women's World Cup, 2019"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-passbrakey" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Q4_files/figure-html/fig-passbrakey-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;9: Key passes by Brazil</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Upon analysing the key passes as illustrated by <a href="#fig-passauskey">Figure&nbsp;8</a> and <a href="#fig-passbrakey">Figure&nbsp;9</a>, we can make the following observations:</p>
+<ol type="1">
+<li>Australia was able to make more number of key passes in the box as compared to Brazil.</li>
+<li>Brazil were able to make only 4 outfield passes in the box while the other 2 were attributed to corners.</li>
 </ol>
 </section>
 
