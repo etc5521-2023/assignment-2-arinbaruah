@@ -2,6 +2,9 @@
 title: "Q3"
 author: "Arindom Baruah (32779267)"
 format: html
+execute: 
+  warning: false
+  message: false
 ---
 ```{r echo=FALSE}
 library(tidyverse)
@@ -9,6 +12,7 @@ library(ggplot2)
 library(ggpubr)
 library(ggthemes)
 library(ggExtra)
+library(plotly)
 ```
 
 
@@ -62,10 +66,35 @@ df_aus <- df_grouped %>% filter(country=="Australia")
 ```
 
 ```{r}
+#| label: fig-tbaus
+#| fig-cap: "New TB cases in Australia"
+pl1 <- ggplot(data =df_aus,aes(x =year,
+                               y = Metric)) + geom_line() + geom_point(color="blue") + theme_classic() + labs(x = "Year",
+                                                                 y = "Total new TB cases detected",caption = "Source: WHO")  + ggtitle("New TB cases in Australia") + theme(plot.title = element_text(hjust = 0.5))
 
-ggplot(data =df_aus,aes(x =year,y = Metric)) + geom_line()
+ggplotly(pl1)
+
 ```
 
 
+Based on the plot of new TB cases for the country of Australia in @fig-tbaus, we observe that between the time period of 1980-2001, the first spike in the new TB cases detected were in the year of 1993 but died down for the next couple of years. There was however a resurgence of TB cases observed in the year of 1997 and it continued to grow until the end of 2012 to a total number of 1259 cases per year. However, an encouraging drop in cases from the year of 2013 to 2020 with cases ranging between 480 to  609 cases within that period.
+
+Based on a study by the Australian National University which can be referred to [here](https://nceph.anu.edu.au/research/projects/australian-tuberculosis-risk-factor-survey#:~:text=Australia%20reports%20approximately%201300%20cases,has%20been%20observed%20since%202003.), majority of the TB cases were observed to affect immigrants from nations with poor health care and high pollution. This could be a reason as to why, new TB cases were observed to spike during the early parts of 2000s as more number of immigrants started making their way into Australia. 
+
 d. Subset the data to Australia and five of it's nearest neighbours (Fiji, Indonesia, New Zealand, Papua New Guinea, and East Timor). Make an appropriate plot to compare the incidence across countries. 
+
+```{r}
+#| label: fig-ausnei
+#| fig-cap: "Number of TB cases in and around Australia"
+options(scipen=1000)
+countries <- c("Australia","New Zealand","Papua New Guinea","Indonesia","Timor-Leste","Fiji")
+
+pl2 <- ggplot(data = df_grouped %>% filter(country %in% countries),aes(x =year,
+                               y = Metric)) + geom_line() + geom_point(color='darkred')+ theme_classic() + labs(x = "Year",
+                                                                 y = "Total new TB cases detected",caption = "Source: WHO")  + theme(plot.title = element_text(hjust = 0.5)) + facet_wrap(~country,scales = "free_y")
+ggplotly(pl2)
+```
+
+
+
 e. What is wrong with directly comparing the incidence? What information is missing in order to make the comparison. Without adding new data, come up with a transformation of counts that will fix the problem. Make a new plot, and describe how TB is occurring similarly or differently in Australia and it's nearest neighbours.
