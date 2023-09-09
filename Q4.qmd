@@ -68,5 +68,31 @@ Figure @fig-goal illustrates the number of shots on target in the match of Austr
 
 
 b. Summarise the shots for each country by player. Would you say that shots were a team effort or dominated by certain players?
+
+Answer B
+
+```{r}
+#| label: fig-playershot
+#| fig-cap: "Number of shots by each player of each team"
+total_shots <- aus_brazil %>%
+filter(shot.outcome.name != is.na(shot.outcome.name)) %>% 
+  select(c(location.x,location.y,team.name,player.name,player.id)) %>% mutate(team_name = case_match(team.name,"Australia Women's"~"Australia (Matildas)",
+                                                                                          "Brazil Women's"~"Brazil (Seleção)"))
+
+total_shots_grouped <- total_shots %>% group_by(team_name,player.name) %>% mutate("Shot_incident" = 1) %>% summarise(Total_shots = sum(Shot_incident))
+pl2 <- ggplot(data = total_shots_grouped,aes(x = reorder(player.name,Total_shots),y = Total_shots)) + 
+  geom_col(color='black') + geom_col(data = ~filter(.x, Total_shots >= 2,team_name == "Australia (Matildas)"),fill = "#FFCD00") + geom_col(data = ~filter(.x, Total_shots >= 2,team_name == "Brazil (Seleção)"),fill = "blue")+ coord_flip() + facet_wrap(~team_name,scales = "free_y") + theme_classic() + labs(y = "Number of shots",x = "Player")
+pl2
+```
+@fig-playershot illustrates the number of shots registered by each player of each country. Following are our key observations:
+
+1. There were a total of 21 shots registered by the 2 teams. Of these 21 shots, 11 were attributed to Brazil while the remaining 10 were attributed to Australia.
+2. A total of 7 players from Australia registered shots while 8 players from Brazil registered shots.
+3. It can be observed that two players of Australia, namely Samantha May Kerr and Tameka Yallop had higher shots than the rest of the team. Kerr was attributed with 3 shots while Yallop with 2 shots. 
+4. On the other hand, there were 3 players of Brazil with 2 shots on target while the rest of the team had registered one shot.
+5. Based on our analysis, __we can say that there were certain players in the Australian team who dominated the shots in the match__.
+6. For Brazil however, __we can say that the shots were contributed nearly uniformly from the entire team__. 
+
+
 c. Now let's take a look at passes. The location from which passes are made could be characteristic of a team. Make a lineup to test whether the position from which a pass was made was different between Australia and Brazil. Conduct a visual inference analysis to determine if the actual plot can be distinguished from the null plots. Report your $p$-value, after asking 8 of your friends to judge your lineup, and summarise your findings. 
 d. The type of passes can also be characteristic of a team's play. Explore this with the variable `pass.length`, using a visual inference analysis. 
