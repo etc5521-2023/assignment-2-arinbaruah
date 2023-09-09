@@ -95,6 +95,12 @@ pl2 <- ggplot(data = df_grouped %>% filter(country %in% countries),aes(x =year,
 ggplotly(pl2)
 ```
 
+@fig-ausnei illustrates the incidences of TB cases in Australia along with its 5 nearest neighbors which are Fiji, Indonesia, New Zealand, Papua New Guinea and Timor-Leste.
+
+Some important observations are as follows:
+
+1. The magnitude of incidences are significantly different from Australia. The countries of Indonesia, Papua New Guinea and Timor-Leste have all reported higher cases than Australia. 
+2. On the other hand, New Zealand and Fiji have fewer incidences of TB cases when compared to Australia.
 
 
 e. What is wrong with directly comparing the incidence? What information is missing in order to make the comparison. Without adding new data, come up with a transformation of counts that will fix the problem. Make a new plot, and describe how TB is occurring similarly or differently in Australia and it's nearest neighbours.
