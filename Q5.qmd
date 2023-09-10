@@ -1,12 +1,12 @@
 ---
 title: "Q5"
-author: "YOUR NAME HERE"
+author: "Arindom Baruah (32779267)"
 format: html
 ---
 
 ## Exercise 5
 
-For each of the following code fragments, write down was a potentially useful null hypothesis and null generating mechanism would be.
+For each of the following code fragments, write down what a potentially useful null hypothesis and null generating mechanism would be.
 
 a. `cl` is categorical and `x1` is numeric.
 
@@ -15,6 +15,14 @@ ggplot(data) +
   geom_boxplot(aes(x=cl, y=x1))
 ```
 
+Answer A
+
+<div class="alert alert-block alert-warning">
+$H_o$ : There is no difference in the distribution of x1 between the levels of cl.
+
+Null generating mechanism: Permutation of the x1 variable by using the null_permute function.
+</div>
+
 b. `temp` is the temperature of stars and is thought to have a skewed distribution.
 
 ```
@@ -22,12 +30,28 @@ ggplot(stars, aes(temp)) +
   geom_histogram()
 ```
 
+Answer B
+
+<div class="alert alert-block alert-warning">
+$H_o$ : The distribution of the temperature of stars (temp) is normal.
+
+Null generating mechanism: Permutation of the distribution by setting it to "normal" using the null_dist function.
+</div>
+
 c. `rooms` is an integer variable, `perc` is a percentage (or count/frequency), `miss` is a logical variable indicating the value was missing or not. 
 
 ```
 ggplot(housing, aes(x=rooms, y=perc, fill = miss)) +
   geom_col(position = "dodge")
 ```
+
+Answer C
+
+<div class="alert alert-block alert-warning">
+$H_o$ : There is no difference in the distribution of x1 between the levels of cl.
+
+Null generating mechanism: Permutation of the x1 variable.
+</div>
 
 d. `height` and `weight` are quantitative variables, `sport` is categorical.
 
@@ -39,6 +63,14 @@ ggplot(olympics, aes(x = height,
   geom_smooth(method = "lm", se = FALSE)
 ```
 
+Answer D
+
+<div class="alert alert-block alert-warning">
+$H_o$ : There is a linear relationship between height and weight of athletes for all the different sports. Hence, there is no difference among the different kind of sports.
+
+Null generating mechanism: Null linear model (null_lm) can be used to create null plots for a linear relationship between weight and height.
+</div>
+
 e. `.resid` are residuals from a linear model fit.
 
 ```
@@ -46,3 +78,11 @@ ggplot(housing, aes(sample = .resid)) +
     geom_qq() +
     geom_qq_line() 
 ```
+
+Answer E
+
+<div class="alert alert-block alert-warning">
+$H_o$ : The residuals in the housing dataset follow a normal distribution.
+
+Null generating mechanism: Permutation of the residuals (.resid) by using the null_permute function.
+</div>
