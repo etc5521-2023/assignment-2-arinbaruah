@@ -48,9 +48,9 @@ ggplot(housing, aes(x=rooms, y=perc, fill = miss)) +
 Answer C
 
 <div class="alert alert-block alert-warning">
-$H_o$ : There is no difference in the distribution of x1 between the levels of cl.
+$H_o$ : There is no difference significant difference in the distribution of percentage for the different rooms between the cases with missing or no missing values.
 
-Null generating mechanism: Permutation of the x1 variable.
+Null generating mechanism: Permutation of the miss variable by using the null_permute function.
 </div>
 
 d. `height` and `weight` are quantitative variables, `sport` is categorical.
