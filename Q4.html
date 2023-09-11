@@ -242,25 +242,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="null-plots-for-total-passes-of-australia" class="level2">
 <h2 class="anchored" data-anchor-id="null-plots-for-total-passes-of-australia">Null plots for total passes of Australia</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pass_aus_brazil <span class="ot">&lt;-</span> aus_brazil <span class="sc">%&gt;%</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type.name <span class="sc">==</span> <span class="st">"Pass"</span> <span class="sc">&amp;</span> <span class="fu">is.na</span>(pass.outcome.name)) </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>pass_plot <span class="ot">&lt;-</span> <span class="fu">create_Pitch</span>()</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Overlay the soccer pitch as a custom annotation on the scatter plot</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">annotation_custom</span>(<span class="fu">ggplotGrob</span>(pass_plot),</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">xmin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">xmax =</span> <span class="cn">Inf</span>,</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>) <span class="sc">+</span> </span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">lineup</span>(<span class="fu">null_permute</span>(<span class="st">"team.name"</span>),pass_aus_brazil, <span class="at">n =</span> <span class="dv">20</span>),</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">aes</span>(<span class="at">x =</span> location.x,<span class="at">y =</span> location.y,<span class="at">color =</span> team.name)) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>.sample) <span class="sc">+</span>   <span class="fu">theme</span>(</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>()</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#FFCD00"</span>,<span class="st">"blue"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123532536</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pass_aus_brazil <span class="ot">&lt;-</span> aus_brazil <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(type.name <span class="sc">==</span> <span class="st">"Pass"</span> <span class="sc">&amp;</span> <span class="fu">is.na</span>(pass.outcome.name)) </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>pass_plot <span class="ot">&lt;-</span> <span class="fu">create_Pitch</span>()</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Overlay the soccer pitch as a custom annotation on the scatter plot</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> <span class="fu">annotation_custom</span>(<span class="fu">ggplotGrob</span>(pass_plot),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">xmin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">xmax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                    <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>) <span class="sc">+</span> </span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">lineup</span>(<span class="fu">null_permute</span>(<span class="st">"team.name"</span>),pass_aus_brazil, <span class="at">n =</span> <span class="dv">20</span>),</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">aes</span>(<span class="at">x =</span> location.x,<span class="at">y =</span> location.y,<span class="at">color =</span> team.name)) <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>.sample) <span class="sc">+</span>   <span class="fu">theme</span>(</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"none"</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>()</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#FFCD00"</span>,<span class="st">"blue"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="Q4_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+<div id="fig-null" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Q4_files/figure-html/fig-null-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;5: Null plot generation for passes by each team</figcaption>
+</figure>
 </div>
 </div>
+</div>
+<p>The null hypothesis which will be tested through visual inference is as follows:</p>
+<p><span class="math inline">\(H_o\)</span>: There is a significant difference in the way the passes were made in the match for the two teams.</p>
+<p>Upon showing <a href="#fig-null">Figure&nbsp;5</a> to 8 different subjects, the following results were observed:</p>
+<ol type="1">
+<li>2 of the 8 subjects were able to distinguish the actual plot (in position 13), citing more number of yellow points (Players from Australia) in the attacking half of the field.</li>
+<li>Remaining 6 of the 8 subjects were not able to distinguish the actual plot from the null plots.</li>
+</ol>
+<p>The P-value for the above observations is 0.0572447. At a signficance level of 5% or in other words, with a confidence interval of 95 %, the P-value which is 5.72% suggests (however marginally) that the null hypothesis <strong>cannot be rejected</strong>.</p>
 </section>
 <section id="null-plots-for-total-passes-of-brazil" class="level2">
 <h2 class="anchored" data-anchor-id="null-plots-for-total-passes-of-brazil">Null plots for total passes of Brazil</h2>
@@ -276,12 +290,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="fig-denspasslength" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Q4_files/figure-html/fig-denspasslength-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;5: Distribution of pass lengths</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;6: Distribution of pass lengths</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Based on the analysis of <a href="#fig-denspasslength">Figure&nbsp;5</a>, we can observe the pass lengths of both teams are <strong>very similar</strong>. However, these passes could be in different locations on the pitch. Hence, we need to explore this variable further.</p>
+<p>Based on the analysis of <a href="#fig-denspasslength">Figure&nbsp;6</a>, we can observe the pass lengths of both teams are <strong>very similar</strong>. However, these passes could be in different locations on the pitch. Hence, we need to explore this variable further.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>passes_bra <span class="ot">=</span> aus_brazil <span class="sc">%&gt;%</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(type.name<span class="sc">==</span><span class="st">"Pass"</span> <span class="sc">&amp;</span> <span class="fu">is.na</span>(pass.outcome.name) <span class="sc">&amp;</span> team.name <span class="sc">==</span> <span class="st">"Australia Women's"</span> <span class="sc">&amp;</span> pass.length <span class="sc">&gt;</span> <span class="dv">40</span>) </span>
@@ -295,7 +309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="fig-longpassauskey" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Q4_files/figure-html/fig-longpassauskey-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;6: Long passes by Australia</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;7: Long passes by Australia</figcaption>
 </figure>
 </div>
 </div>
@@ -313,12 +327,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="fig-longpassbrakey" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Q4_files/figure-html/fig-longpassbrakey-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;7: Long passes by Brazil</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;8: Long passes by Brazil</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Based on our analysis of <a href="#fig-longpassauskey">Figure&nbsp;6</a> and <a href="#fig-longpassbrakey">Figure&nbsp;7</a>, we can make the following observations:</p>
+<p>Based on our analysis of <a href="#fig-longpassauskey">Figure&nbsp;7</a> and <a href="#fig-longpassbrakey">Figure&nbsp;8</a>, we can make the following observations:</p>
 <ol type="1">
 <li>Most long passes for Australia originated from the Goalkeeper’s position</li>
 <li>On the other hand, Brazil’s long passes originated from the defense. This suggests that Brazil employed short goal kicks while Australia flung more balls from the goalkeeping position to an attacking position.</li>
@@ -339,7 +353,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="fig-passauskey" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Q4_files/figure-html/fig-passauskey-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;8: Key passes by Australia</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;9: Key passes by Australia</figcaption>
 </figure>
 </div>
 </div>
@@ -360,12 +374,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="fig-passbrakey" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="Q4_files/figure-html/fig-passbrakey-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Figure&nbsp;9: Key passes by Brazil</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;10: Key passes by Brazil</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Upon analysing the key passes as illustrated by <a href="#fig-passauskey">Figure&nbsp;8</a> and <a href="#fig-passbrakey">Figure&nbsp;9</a>, we can make the following observations:</p>
+<p>Upon analysing the key passes as illustrated by <a href="#fig-passauskey">Figure&nbsp;9</a> and <a href="#fig-passbrakey">Figure&nbsp;10</a>, we can make the following observations:</p>
 <ol type="1">
 <li>Australia was able to make more number of key passes in the box as compared to Brazil.</li>
 <li>Brazil were able to make only 4 outfield passes in the box while the other 2 were attributed to corners.</li>

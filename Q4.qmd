@@ -144,6 +144,9 @@ Let us now create null plots of the total passes by both teams to check for the 
 
 
 ```{r}
+#| label: fig-null
+#| fig-cap: "Null plot generation for passes by each team"
+set.seed(123532536)
 pass_aus_brazil <- aus_brazil %>%
   filter(type.name == "Pass" & is.na(pass.outcome.name)) 
 
@@ -160,6 +163,16 @@ ggplot() + annotation_custom(ggplotGrob(pass_plot),
     axis.text = element_blank()
   ) + scale_color_manual(values = c("#FFCD00","blue"))
 ```
+The null hypothesis which will be tested through visual inference is as follows:
+
+$H_o$: There is a significant difference in the way the passes were made in the match for the two teams.
+
+Upon showing @fig-null to 8 different subjects, the following results were observed:
+
+1. 2 of the 8 subjects were able to distinguish the actual plot (in position 13), citing more number of yellow points (Players from Australia) in the attacking half of the field.
+2. Remaining 6 of the 8 subjects were not able to distinguish the actual plot from the null plots.
+
+The P-value for the above observations is `r pvisual(2,8,20)[3]`. At a signficance level of 5% or in other words, with a confidence interval of 95 %, the P-value which is 5.72% suggests (however marginally) that the null hypothesis __cannot be rejected__.
 
 
 
