@@ -144,7 +144,6 @@ Let us now create null plots of the total passes by both teams to check for the 
 
 
 ```{r}
-# Example list of data frames (you should replace these with your actual data)
 pitch_data_list <- list(
   pitch1_data = data.frame(x = sample(passes_aus$location.x), y = passes_aus$location.y,xend = passes_aus$pass.end_location.x,yend = passes_aus$pass.end_location.y),
   pitch2_data = data.frame(x = passes_aus$location.x, y = passes_aus$location.y,xend = passes_aus$pass.end_location.x,yend = passes_aus$pass.end_location.y),
@@ -164,13 +163,44 @@ null_plots <- lapply(pitch_data_list, function(pitch_data) {
       xend = xend,
       yend = yend
     ),lineend = "round", size = 0.5, colour = "#FFCD00", arrow =
-arrow(length = unit(0.07, "inches"), ends = "last", type = "open")) + labs(title = paste0("Null plot"),
-                                                                           subtitle = "Total passes by Australia")
+arrow(length = unit(0.07, "inches"), ends = "last", type = "open")) + labs(subtitle = "Total passes by Australia")
 })
 
 # Plot each null plot separately
 for (i in 1:length(null_plots)) {
-  print(null_plots[[i]])
+  print(null_plots[[i]] + ggtitle(paste0("Null plot:",i)))
+}
+
+```
+
+## Null plots for total passes of Brazil
+
+```{r}
+pitch_data_list <- list(
+  pitch1_data = data.frame(x = sample(passes_bra$location.x), y = passes_bra$location.y,xend = passes_bra$pass.end_location.x,yend = passes_bra$pass.end_location.y),
+  pitch2_data = data.frame(x = sample(passes_bra$location.x), y = passes_bra$location.y,xend = passes_bra$pass.end_location.x,yend = passes_bra$pass.end_location.y),
+  pitch3_data = data.frame(x = sample(passes_bra$location.x), y = passes_bra$location.y,xend = passes_bra$pass.end_location.x,yend = passes_bra$pass.end_location.y),
+  pitch4_data = data.frame(x = passes_bra$location.x, y = passes_bra$location.y,xend = passes_bra$pass.end_location.x,yend = passes_bra$pass.end_location.y),
+  pitch5_data = data.frame(x = sample(passes_bra$location.x), y = passes_bra$location.y,xend = passes_bra$pass.end_location.x,yend = passes_bra$pass.end_location.y)
+                           
+)
+
+# Create separate null plots for each pitch
+null_plots <- lapply(pitch_data_list, function(pitch_data) {
+  create_Pitch() +
+    geom_segment(data = pitch_data,
+    aes(
+      x = x,
+      y = y,
+      xend = xend,
+      yend = yend
+    ),lineend = "round", size = 0.5, colour = "blue", arrow =
+arrow(length = unit(0.07, "inches"), ends = "last", type = "open")) + labs(subtitle = "Total passes by Brazil")
+})
+
+# Plot each null plot separately
+for (i in 1:length(null_plots)) {
+  print(null_plots[[i]] + ggtitle(paste0("Null plot:",i)))
 }
 
 ```
