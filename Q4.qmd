@@ -18,6 +18,7 @@ library(rvest)
 library(StatsBombR)
 library(SBpitch)
 library(ggplot2)
+library(nullabor)
 ```
 
 ```{r}
@@ -137,7 +138,42 @@ Upon analysing the completed passes made by Australia and Brazil throug @fig-pas
 4. Australia were __also observed to play centrally with more passes in the middle of the field as compared to Brazil__.
 
 
+Let us now create null plots of the total passes by both teams to check for the presence of any key differences in the ways the two teams passed through the matches.
 
+## Null plots for total passes of Australia
+
+
+```{r}
+# Example list of data frames (you should replace these with your actual data)
+pitch_data_list <- list(
+  pitch1_data = data.frame(x = sample(passes_aus$location.x), y = passes_aus$location.y,xend = passes_aus$pass.end_location.x,yend = passes_aus$pass.end_location.y),
+  pitch2_data = data.frame(x = passes_aus$location.x, y = passes_aus$location.y,xend = passes_aus$pass.end_location.x,yend = passes_aus$pass.end_location.y),
+  pitch3_data = data.frame(x = sample(passes_aus$location.x),y = passes_aus$location.y,xend = passes_aus$pass.end_location.x,yend = passes_aus$pass.end_location.y),
+  pitch4_data = data.frame(x = sample(passes_aus$location.x),y = passes_aus$location.y,xend = passes_aus$pass.end_location.x,yend = passes_aus$pass.end_location.y),
+  pitch5_data = data.frame(x = sample(passes_aus$location.x),y = passes_aus$location.y,xend = passes_aus$pass.end_location.x,yend = passes_aus$pass.end_location.y)
+                           
+)
+
+# Create separate null plots for each pitch
+null_plots <- lapply(pitch_data_list, function(pitch_data) {
+  create_Pitch() +
+    geom_segment(data = pitch_data,
+    aes(
+      x = x,
+      y = y,
+      xend = xend,
+      yend = yend
+    ),lineend = "round", size = 0.5, colour = "#FFCD00", arrow =
+arrow(length = unit(0.07, "inches"), ends = "last", type = "open")) + labs(title = paste0("Null plot"),
+                                                                           subtitle = "Total passes by Australia")
+})
+
+# Plot each null plot separately
+for (i in 1:length(null_plots)) {
+  print(null_plots[[i]])
+}
+
+```
 
 
 d. The type of passes can also be characteristic of a team's play. Explore this with the variable `pass.length`, using a visual inference analysis. 
@@ -234,5 +270,6 @@ Upon analysing the key passes as illustrated by @fig-passauskey and @fig-passbra
 
 1. Australia was able to make more number of key passes in the box as compared to Brazil.
 2. Brazil were able to make only 4 outfield passes in the box while the other 2 were attributed to corners.
+
 
 
