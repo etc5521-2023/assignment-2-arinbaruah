@@ -116,15 +116,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(nullabor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>A really nice introduction to working with the data is available <a href="https://statsbomb.com/wp-content/uploads/2022/08/Working-with-R.pdf">here</a>.</p>
-<ol type="a">
-<li>Make a plot of shots on goal made by each team that looks like the following, and include your cleanly written code. (Note: 1. <code>location</code> has the position from which passes were made, in the form of an array. You can access the x and y values using <code>location.x</code> and <code>location.y</code>. 2. The positions have been processed so both teams are playing from left to right, so that it is easy to compare their play.)</li>
-</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question A
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Make a plot of shots on goal made by each team that looks like the following, and include your cleanly written code. (Note: 1. <code>location</code> has the position from which passes were made, in the form of an array. You can access the x and y values using <code>location.x</code> and <code>location.y</code>. 2. The positions have been processed so both teams are playing from left to right, so that it is easy to compare their play.)</p>
+</div>
+</div>
 <p>Answer A</p>
+<div class="alert alert-block alert-warning">
 <p>In order to visualise the shots on goal, we will filter the data with the following shot outcomes:</p>
 <ol type="1">
 <li><strong>Shots which led to goals</strong>.</li>
 <li><strong>Shots which were saved by the goalkeeper</strong>.</li>
 </ol>
+</div>
 <p>The above two shot outcomes can be considered as “shots on goal” and will be visualised on the pitch through the code below.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>on_goal_conditions <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Goal"</span>,<span class="st">"Saved"</span>)</span>
@@ -152,15 +164,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="alert alert-block alert-warning">
 <p>Figure <a href="#fig-goal">Figure&nbsp;1</a> illustrates the number of shots on target in the match of Australia Vs Brazil for the Women’s World Cup. Following are the key observations:</p>
 <ol type="1">
 <li>There were a total of 8 shots on target from both the sides.</li>
 <li>Of these 8 shots, Australia shot 5 goals on target while Brazil shot 3 goals on target.</li>
 <li>The above analysis can be further confirmed through the google analytics and can be referred to <a href="https://www.google.com/search?q=australia+vs+brazil+women%27s+worldcup+2019&amp;client=safari&amp;sca_esv=563943516&amp;rls=en&amp;sxsrf=AB5stBiFbjHF5qvMujaWoiD1OnnyX9Bmpg%3A1694243015849&amp;ei=xxj8ZOevM-C02roP8Im9mAI&amp;ved=0ahUKEwinr_2I-5yBAxVgmlYBHfBEDyMQ4dUDCBA&amp;uact=5&amp;oq=australia+vs+brazil+women%27s+worldcup+2019&amp;gs_lp=Egxnd3Mtd2l6LXNlcnAiKWF1c3RyYWxpYSB2cyBicmF6aWwgd29tZW4ncyB3b3JsZGN1cCAyMDE5MgcQIRigARgKMgcQIRigARgKMgcQIRigARgKMgoQIRgWGB4YHRgKMgoQIRgWGB4YHRgKSLpMUABY7UpwAngBkAEAmAHSAqABgDuqAQgwLjM5LjMuMbgBA8gBAPgBAcICCBAuGIoFGJECwgIOEAAYigUYsQMYgwEYkQLCAgsQLhiABBixAxiDAcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgsQABiKBRixAxiDAcICCxAuGIAEGMcBGNEDwgIXEC4YigUYkQIYlwUY3AQY3gQY3wTYAQHCAgQQIxgnwgIIEAAYigUYkQLCAgcQABiKBRhDwgIQEC4YigUYsQMYxwEY0QMYQ8ICDRAuGIoFGMcBGNEDGEPCAgcQLhiKBRhDwgIHECMYigUYJ8ICDRAuGIoFGLEDGIMBGEPCAgoQLhiKBRixAxhDwgIKEAAYigUYsQMYQ8ICDRAAGIoFGLEDGIMBGEPCAgsQLhiDARixAxiABMICBRAAGIAEwgILEC4YgAQYxwEYrwHCAgsQABiKBRixAxiRAsICCBAAGIAEGLEDwgILEC4YgwEYsQMYigXCAgsQLhiKBRixAxiDAcICChAAGIAEGBQYhwLCAgYQABgWGB7CAggQABiKBRiGA8ICCBAAGBYYHhgPwgIHEAAYDRiABMICBBAhGBXCAggQIRgWGB4YHeIDBBgAIEGIBgG6BgYIARABGBQ&amp;sclient=gws-wiz-serp#sie=m;/g/11gxvrqfj4;2;/m/01kglk;dt;fp;1;;;">here</a>.</li>
 </ol>
-<ol start="2" type="a">
-<li>Summarise the shots for each country by player. Would you say that shots were a team effort or dominated by certain players?</li>
-</ol>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question B
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Summarise the shots for each country by player. Would you say that shots were a team effort or dominated by certain players?</p>
+</div>
+</div>
 <p>Answer B</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>total_shots <span class="ot">&lt;-</span> aus_brazil <span class="sc">%&gt;%</span></span>
@@ -182,6 +206,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="alert alert-block alert-warning">
 <p><a href="#fig-playershot">Figure&nbsp;2</a> illustrates the number of shots registered by each player of each country. Following are our key observations:</p>
 <ol type="1">
 <li>There were a total of 21 shots registered by the 2 teams. Of these 21 shots, 11 were attributed to Brazil while the remaining 10 were attributed to Australia.</li>
@@ -191,9 +216,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Based on our analysis, <strong>we can say that there were certain players in the Australian team who dominated the shots in the match</strong>.</li>
 <li>For Brazil however, <strong>we can say that the shots were contributed nearly uniformly from the entire team</strong>.</li>
 </ol>
-<ol start="3" type="a">
-<li>Now let’s take a look at passes. The location from which passes are made could be characteristic of a team. Make a lineup to test whether the position from which a pass was made was different between Australia and Brazil. Conduct a visual inference analysis to determine if the actual plot can be distinguished from the null plots. Report your <span class="math inline">\(p\)</span>-value, after asking 8 of your friends to judge your lineup, and summarise your findings.</li>
-</ol>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question C
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Now let’s take a look at passes. The location from which passes are made could be characteristic of a team. Make a lineup to test whether the position from which a pass was made was different between Australia and Brazil. Conduct a visual inference analysis to determine if the actual plot can be distinguished from the null plots. Report your <span class="math inline">\(p\)</span>-value, after asking 8 of your friends to judge your lineup, and summarise your findings.</p>
+</div>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>passes_aus <span class="ot">=</span> aus_brazil <span class="sc">%&gt;%</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(type.name<span class="sc">==</span><span class="st">"Pass"</span> <span class="sc">&amp;</span> <span class="fu">is.na</span>(pass.outcome.name) <span class="sc">&amp;</span> team.name <span class="sc">==</span> <span class="st">"Australia Women's"</span>) </span>
@@ -230,6 +266,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="alert alert-block alert-warning">
 <p>Upon analysing the completed passes made by Australia and Brazil throug <a href="#fig-passausall">Figure&nbsp;3</a> and <a href="#fig-passbraall">Figure&nbsp;4</a>, we observe the following:</p>
 <ol type="1">
 <li><strong>Australia made more number of successful passes as compared to Brazil</strong> as can be observed through the density of the arrows in the two figures.</li>
@@ -237,6 +274,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>On the other hand, <strong>Brazil were observed to overload the right flank but not use the left flank as much</strong>.</li>
 <li>Australia were <strong>also observed to play centrally with more passes in the middle of the field as compared to Brazil</strong>.</li>
 </ol>
+</div>
 <p>Let us now create null plots of the total passes by both teams to check for the presence of any key differences in the ways the two teams passed through the matches.</p>
 </section>
 <section id="null-plots-for-total-passes-of-australia" class="level2">
@@ -267,20 +305,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="alert alert-block alert-warning">
 <p>The null hypothesis which will be tested through visual inference is as follows:</p>
 <p><span class="math inline">\(H_o\)</span>: There is a significant difference in the way the passes were made in the match for the two teams.</p>
+<p>Null generating mechanism: Permutation of the variable team.name by using the null_permute function.</p>
 <p>Upon showing <a href="#fig-null">Figure&nbsp;5</a> to 8 different subjects, the following results were observed:</p>
 <ol type="1">
 <li>2 of the 8 subjects were able to distinguish the actual plot (in position 13), citing more number of yellow points (Players from Australia) in the attacking half of the field.</li>
 <li>Remaining 6 of the 8 subjects were not able to distinguish the actual plot from the null plots.</li>
 </ol>
 <p>The P-value for the above observations is 0.0572447. At a signficance level of 5% or in other words, with a confidence interval of 95 %, the P-value which is 5.72% suggests (however marginally) that the null hypothesis <strong>cannot be rejected</strong>.</p>
+</div>
 </section>
 <section id="null-plots-for-total-passes-of-brazil" class="level2">
 <h2 class="anchored" data-anchor-id="null-plots-for-total-passes-of-brazil">Null plots for total passes of Brazil</h2>
-<ol start="4" type="a">
-<li>The type of passes can also be characteristic of a team’s play. Explore this with the variable <code>pass.length</code>, using a visual inference analysis.</li>
-</ol>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Question D
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The type of passes can also be characteristic of a team’s play. Explore this with the variable <code>pass.length</code>, using a visual inference analysis.</p>
+</div>
+</div>
 <p>Answer D</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pl5 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> aus_brazil <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">team_name =</span> <span class="fu">case_match</span>(team.name,<span class="st">"Australia Women's"</span><span class="sc">~</span><span class="st">"Australia (Matildas)"</span>,</span>
@@ -332,11 +383,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="alert alert-block alert-warning">
 <p>Based on our analysis of <a href="#fig-longpassauskey">Figure&nbsp;7</a> and <a href="#fig-longpassbrakey">Figure&nbsp;8</a>, we can make the following observations:</p>
 <ol type="1">
 <li>Most long passes for Australia originated from the Goalkeeper’s position</li>
 <li>On the other hand, Brazil’s long passes originated from the defense. This suggests that Brazil employed short goal kicks while Australia flung more balls from the goalkeeping position to an attacking position.</li>
 </ol>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>passes_aus <span class="ot">=</span> aus_brazil <span class="sc">%&gt;%</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(type.name<span class="sc">==</span><span class="st">"Pass"</span> <span class="sc">&amp;</span> <span class="fu">is.na</span>(pass.outcome.name) <span class="sc">&amp;</span> team.name <span class="sc">==</span> <span class="st">"Australia Women's"</span>) <span class="sc">%&gt;%</span> <span class="co">#1</span></span>
@@ -379,11 +432,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="alert alert-block alert-warning">
 <p>Upon analysing the key passes as illustrated by <a href="#fig-passauskey">Figure&nbsp;9</a> and <a href="#fig-passbrakey">Figure&nbsp;10</a>, we can make the following observations:</p>
 <ol type="1">
 <li>Australia was able to make more number of key passes in the box as compared to Brazil.</li>
 <li>Brazil were able to make only 4 outfield passes in the box while the other 2 were attributed to corners.</li>
 </ol>
+</div>
 </section>
 
 </main>

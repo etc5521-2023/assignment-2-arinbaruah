@@ -28,15 +28,20 @@ load("data/aus_brazil.rda")
 
 A really nice introduction to working with the data is available [here](https://statsbomb.com/wp-content/uploads/2022/08/Working-with-R.pdf). 
 
-a. Make a plot of shots on goal made by each team that looks like the following, and include your cleanly written code. (Note: 1. `location` has the position from which passes were made, in the form of an array. You can access the x and y values using `location.x` and `location.y`. 2. The positions have been processed so both teams are playing from left to right, so that it is easy to compare their play.)
-
+:::{.callout-note}
+# Question A
+Make a plot of shots on goal made by each team that looks like the following, and include your cleanly written code. (Note: 1. `location` has the position from which passes were made, in the form of an array. You can access the x and y values using `location.x` and `location.y`. 2. The positions have been processed so both teams are playing from left to right, so that it is easy to compare their play.)
+:::
 
 Answer A
 
+<div class="alert alert-block alert-warning">
 In order to visualise the shots on goal, we will filter the data with the following shot outcomes:
 
 1. __Shots which led to goals__.
 2. __Shots which were saved by the goalkeeper__.
+
+</div>
 
 The above two shot outcomes can be considered as "shots on goal" and will be visualised on the pitch through the code below.
 
@@ -61,14 +66,20 @@ geom_point(data = shots_on_goal, aes(x = location.x, y = location.y,color=team_n
 pl1
 ```
 
+<div class="alert alert-block alert-warning">
 Figure @fig-goal illustrates the number of shots on target in the match of Australia Vs Brazil for the Women's World Cup. Following are the key observations:
 
 1. There were a total of 8 shots on target from both the sides.
 2. Of these 8 shots, Australia shot 5 goals on target while Brazil shot 3 goals on target.
 3. The above analysis can be further confirmed through the google analytics and can be referred to [here](https://www.google.com/search?q=australia+vs+brazil+women%27s+worldcup+2019&client=safari&sca_esv=563943516&rls=en&sxsrf=AB5stBiFbjHF5qvMujaWoiD1OnnyX9Bmpg%3A1694243015849&ei=xxj8ZOevM-C02roP8Im9mAI&ved=0ahUKEwinr_2I-5yBAxVgmlYBHfBEDyMQ4dUDCBA&uact=5&oq=australia+vs+brazil+women%27s+worldcup+2019&gs_lp=Egxnd3Mtd2l6LXNlcnAiKWF1c3RyYWxpYSB2cyBicmF6aWwgd29tZW4ncyB3b3JsZGN1cCAyMDE5MgcQIRigARgKMgcQIRigARgKMgcQIRigARgKMgoQIRgWGB4YHRgKMgoQIRgWGB4YHRgKSLpMUABY7UpwAngBkAEAmAHSAqABgDuqAQgwLjM5LjMuMbgBA8gBAPgBAcICCBAuGIoFGJECwgIOEAAYigUYsQMYgwEYkQLCAgsQLhiABBixAxiDAcICCxAAGIAEGLEDGIMBwgIREC4YgAQYsQMYgwEYxwEY0QPCAgsQABiKBRixAxiDAcICCxAuGIAEGMcBGNEDwgIXEC4YigUYkQIYlwUY3AQY3gQY3wTYAQHCAgQQIxgnwgIIEAAYigUYkQLCAgcQABiKBRhDwgIQEC4YigUYsQMYxwEY0QMYQ8ICDRAuGIoFGMcBGNEDGEPCAgcQLhiKBRhDwgIHECMYigUYJ8ICDRAuGIoFGLEDGIMBGEPCAgoQLhiKBRixAxhDwgIKEAAYigUYsQMYQ8ICDRAAGIoFGLEDGIMBGEPCAgsQLhiDARixAxiABMICBRAAGIAEwgILEC4YgAQYxwEYrwHCAgsQABiKBRixAxiRAsICCBAAGIAEGLEDwgILEC4YgwEYsQMYigXCAgsQLhiKBRixAxiDAcICChAAGIAEGBQYhwLCAgYQABgWGB7CAggQABiKBRiGA8ICCBAAGBYYHhgPwgIHEAAYDRiABMICBBAhGBXCAggQIRgWGB4YHeIDBBgAIEGIBgG6BgYIARABGBQ&sclient=gws-wiz-serp#sie=m;/g/11gxvrqfj4;2;/m/01kglk;dt;fp;1;;;). 
+</div>
 
 
-b. Summarise the shots for each country by player. Would you say that shots were a team effort or dominated by certain players?
+:::{.callout-note}
+# Question B
+Summarise the shots for each country by player. Would you say that shots were a team effort or dominated by certain players?
+:::
+
 
 Answer B
 
@@ -86,6 +97,7 @@ pl2 <- ggplot(data = total_shots_grouped,aes(x = reorder(player.name,Total_shots
        subtitle = "Stadium De La Mosson, France,Women's World Cup, 2019")
 pl2
 ```
+<div class="alert alert-block alert-warning">
 @fig-playershot illustrates the number of shots registered by each player of each country. Following are our key observations:
 
 1. There were a total of 21 shots registered by the 2 teams. Of these 21 shots, 11 were attributed to Brazil while the remaining 10 were attributed to Australia.
@@ -95,9 +107,13 @@ pl2
 5. Based on our analysis, __we can say that there were certain players in the Australian team who dominated the shots in the match__.
 6. For Brazil however, __we can say that the shots were contributed nearly uniformly from the entire team__. 
 
+</div>
 
-c. Now let's take a look at passes. The location from which passes are made could be characteristic of a team. Make a lineup to test whether the position from which a pass was made was different between Australia and Brazil. Conduct a visual inference analysis to determine if the actual plot can be distinguished from the null plots. Report your $p$-value, after asking 8 of your friends to judge your lineup, and summarise your findings. 
+:::{.callout-note}
+# Question C
 
+Now let's take a look at passes. The location from which passes are made could be characteristic of a team. Make a lineup to test whether the position from which a pass was made was different between Australia and Brazil. Conduct a visual inference analysis to determine if the actual plot can be distinguished from the null plots. Report your $p$-value, after asking 8 of your friends to judge your lineup, and summarise your findings. 
+:::
 
 
 ```{r}
@@ -130,13 +146,14 @@ arrow(length = unit(0.07, "inches"), ends = "last", type = "open")) + labs(title
 
 ```
 
+<div class="alert alert-block alert-warning">
 Upon analysing the completed passes made by Australia and Brazil throug @fig-passausall and @fig-passbraall, we observe the following:
 
 1. __Australia made more number of successful passes as compared to Brazil__ as can be observed through the density of the arrows in the two figures.
 2. __Australia were observed to effectively use the left and right flanks__.
 3. On the other hand, __Brazil were observed to overload the right flank but not use the left flank as much__.
 4. Australia were __also observed to play centrally with more passes in the middle of the field as compared to Brazil__.
-
+</div>
 
 Let us now create null plots of the total passes by both teams to check for the presence of any key differences in the ways the two teams passed through the matches.
 
@@ -163,9 +180,12 @@ ggplot() + annotation_custom(ggplotGrob(pass_plot),
     axis.text = element_blank()
   ) + scale_color_manual(values = c("#FFCD00","blue"))
 ```
+<div class="alert alert-block alert-warning">
 The null hypothesis which will be tested through visual inference is as follows:
 
 $H_o$: There is a significant difference in the way the passes were made in the match for the two teams.
+
+Null generating mechanism: Permutation of the variable team.name by using the null_permute function.
 
 Upon showing @fig-null to 8 different subjects, the following results were observed:
 
@@ -174,7 +194,7 @@ Upon showing @fig-null to 8 different subjects, the following results were obser
 
 The P-value for the above observations is `r pvisual(2,8,20)[3]`. At a signficance level of 5% or in other words, with a confidence interval of 95 %, the P-value which is 5.72% suggests (however marginally) that the null hypothesis __cannot be rejected__.
 
-
+</div>
 
 ```{r eval=FALSE,echo=FALSE}
 pitch_data_list <- list(
@@ -237,13 +257,14 @@ for (i in 1:length(null_plots)) {
 }
 
 ```
+:::{.callout-note}
+# Question D
 
+The type of passes can also be characteristic of a team's play. Explore this with the variable `pass.length`, using a visual inference analysis.
 
-d. The type of passes can also be characteristic of a team's play. Explore this with the variable `pass.length`, using a visual inference analysis. 
+:::
 
 Answer D
-
-
 
 ```{r}
 #| label: fig-denspasslength
@@ -284,14 +305,14 @@ xend = pass.end_location.x, yend = pass.end_location.y), lineend = "round", size
 arrow(length = unit(0.07, "inches"), ends = "last", type = "open")) + labs(title = "Long passes of Brazil",
                                                                            subtitle = "Stadium De La Mosson, France,Women's World Cup, 2019")
 ```
-
+<div class="alert alert-block alert-warning">
 
 Based on our analysis of @fig-longpassauskey and @fig-longpassbrakey, we can make the following observations:
 
 1. Most long passes for Australia originated from the Goalkeeper's position
 2. On the other hand, Brazil's long passes originated from the defense. This suggests that Brazil employed short goal kicks while Australia flung more balls from the goalkeeping position to an attacking position.
 
-
+</div>
 
 ```{r}
 #| label: fig-passauskey
@@ -329,10 +350,11 @@ arrow(length = unit(0.07, "inches"), ends = "last", type = "open")) + labs(title
 
 ```
 
+<div class="alert alert-block alert-warning">
 Upon analysing the key passes as illustrated by @fig-passauskey and @fig-passbrakey, we can make the following observations:
 
 1. Australia was able to make more number of key passes in the box as compared to Brazil.
 2. Brazil were able to make only 4 outfield passes in the box while the other 2 were attributed to corners.
-
+</div>
 
 
