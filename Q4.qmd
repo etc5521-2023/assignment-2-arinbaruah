@@ -157,7 +157,7 @@ Upon analysing the completed passes made by Australia and Brazil throug @fig-pas
 
 Let us now create null plots of the total passes by both teams to check for the presence of any key differences in the ways the two teams passed through the matches.
 
-## Null plots for total passes of Australia
+## Null plots for total passes of Australia and Brazil
 
 
 ```{r}
@@ -183,80 +183,20 @@ ggplot() + annotation_custom(ggplotGrob(pass_plot),
 <div class="alert alert-block alert-warning">
 The null hypothesis which will be tested through visual inference is as follows:
 
-$H_o$: There is a significant difference in the way the passes were made in the match for the two teams.
+$H_o$: __There is no significant difference in the way the passes were made in the match for the two teams__.
 
 Null generating mechanism: Permutation of the variable team.name by using the null_permute function.
 
 Upon showing @fig-null to 8 different subjects, the following results were observed:
 
-1. 2 of the 8 subjects were able to distinguish the actual plot (in position 13), citing more number of yellow points (Players from Australia) in the attacking half of the field.
-2. Remaining 6 of the 8 subjects were not able to distinguish the actual plot from the null plots.
+1. 1 of the 8 subjects were able to distinguish the actual plot (in position 13), citing more number of yellow points (Players from Australia) in the attacking half of the field.
+2. Remaining 7 of the 8 subjects were not able to distinguish the actual plot from the null plots.
 
-The P-value for the above observations is `r pvisual(2,8,20)[3]`. At a signficance level of 5% or in other words, with a confidence interval of 95 %, the P-value which is 5.72% suggests (however marginally) that the null hypothesis __cannot be rejected__.
+The P-value for the above observations is `r pvisual(1,8,20)[3]`. At a signficance level of 5% or in other words, with a confidence interval of 95 %, the P-value which is 33.65% suggests that the null hypothesis __cannot be rejected__.
 
 </div>
 
-```{r eval=FALSE,echo=FALSE}
-pitch_data_list <- list(
-  pitch1_data = data.frame(x = sample(passes_aus$location.x), y = passes_aus$location.y,xend = passes_aus$pass.end_location.x,yend = passes_aus$pass.end_location.y),
-  pitch2_data = data.frame(x = passes_aus$location.x, y = passes_aus$location.y,xend = passes_aus$pass.end_location.x,yend = passes_aus$pass.end_location.y),
-  pitch3_data = data.frame(x = sample(passes_aus$location.x),y = passes_aus$location.y,xend = passes_aus$pass.end_location.x,yend = passes_aus$pass.end_location.y),
-  pitch4_data = data.frame(x = sample(passes_aus$location.x),y = passes_aus$location.y,xend = passes_aus$pass.end_location.x,yend = passes_aus$pass.end_location.y),
-  pitch5_data = data.frame(x = sample(passes_aus$location.x),y = passes_aus$location.y,xend = passes_aus$pass.end_location.x,yend = passes_aus$pass.end_location.y)
-                           
-)
 
-# Create separate null plots for each pitch
-null_plots <- lapply(pitch_data_list, function(pitch_data) {
-  create_Pitch() +
-    geom_segment(data = pitch_data,
-    aes(
-      x = x,
-      y = y,
-      xend = xend,
-      yend = yend
-    ),lineend = "round", size = 0.5, colour = "#FFCD00", arrow =
-arrow(length = unit(0.07, "inches"), ends = "last", type = "open")) + labs(subtitle = "Total passes by Australia")
-})
-
-# Plot each null plot separately
-for (i in 1:length(null_plots)) {
-  print(null_plots[[i]] + ggtitle(paste0("Null plot:",i)))
-}
-
-```
-
-## Null plots for total passes of Brazil
-
-```{r eval=FALSE,echo=FALSE}
-pitch_data_list <- list(
-  pitch1_data = data.frame(x = sample(passes_bra$location.x), y = passes_bra$location.y,xend = passes_bra$pass.end_location.x,yend = passes_bra$pass.end_location.y),
-  pitch2_data = data.frame(x = sample(passes_bra$location.x), y = passes_bra$location.y,xend = passes_bra$pass.end_location.x,yend = passes_bra$pass.end_location.y),
-  pitch3_data = data.frame(x = sample(passes_bra$location.x), y = passes_bra$location.y,xend = passes_bra$pass.end_location.x,yend = passes_bra$pass.end_location.y),
-  pitch4_data = data.frame(x = passes_bra$location.x, y = passes_bra$location.y,xend = passes_bra$pass.end_location.x,yend = passes_bra$pass.end_location.y),
-  pitch5_data = data.frame(x = sample(passes_bra$location.x), y = passes_bra$location.y,xend = passes_bra$pass.end_location.x,yend = passes_bra$pass.end_location.y)
-                           
-)
-
-# Create separate null plots for each pitch
-null_plots <- lapply(pitch_data_list, function(pitch_data) {
-  create_Pitch() +
-    geom_segment(data = pitch_data,
-    aes(
-      x = x,
-      y = y,
-      xend = xend,
-      yend = yend
-    ),lineend = "round", size = 0.5, colour = "blue", arrow =
-arrow(length = unit(0.07, "inches"), ends = "last", type = "open")) + labs(subtitle = "Total passes by Brazil")
-})
-
-# Plot each null plot separately
-for (i in 1:length(null_plots)) {
-  print(null_plots[[i]] + ggtitle(paste0("Null plot:",i)))
-}
-
-```
 :::{.callout-note}
 # Question D
 
@@ -274,7 +214,48 @@ pl5 <- ggplot(data = aus_brazil %>% mutate(team_name = case_match(team.name,"Aus
                                                                                           "Brazil Women's"~"Brazil (Seleção)")),aes(x = pass.length,fill = team_name)) + theme_classic() + geom_density(alpha=0.4) + labs(x = "Pass length (m)",y = "Probability density",fill = "Team name") + scale_fill_manual(values=c('#FFCD00','Blue')) 
 pl5
 ```
-Based on the analysis of @fig-denspasslength, we can observe the pass lengths of both teams are __very similar__. However, these passes could be in different locations on the pitch. Hence, we need to explore this variable further.
+Based on the analysis of @fig-denspasslength, we can observe the pass lengths of both teams are __very similar__. However, these passes could be in different locations on the pitch. 
+
+Let us now create a lineup of this plot to understand whether there is a visual difference among the pass lengths by each team.
+
+
+
+```{r}
+#| label: fig-nullpass
+#| fig-cap: "Null plot generation for pass length by each team"
+set.seed(123532536)
+pass_aus_brazil <- aus_brazil %>%
+  filter(type.name == "Pass" & is.na(pass.outcome.name)) 
+
+pl6 <- ggplot() + geom_density(data = lineup(null_permute("team.name"),aus_brazil, n = 20),
+                      aes(x = pass.length,fill = team.name,alpha=0.4)) + facet_wrap(~.sample) + theme_classic() + theme(
+    legend.position = "none",
+    axis.title = element_blank(),
+    axis.text = element_blank()
+  ) + scale_fill_manual(values = c("#FFCD00","blue"))
+pl6
+```
+
+Following is the null hypothesis and the null generating mechanism which we will be using for assessing the null plot.
+
+<div class="alert alert-block alert-warning">
+
+$H_o$: __There is no significant difference in the pass lengths of the two teams__.
+
+Null generating mechanism = Permutation of the team name by using the null_permute function.
+
+
+Upon analysing @fig-nullpass, we could make the following observations:
+
+1. 8 subjects were allowed to select the most unique plot in the lineup.
+2. All 8 of the subjects chose a plot which was not the actual plot.
+
+The P-value for the above observations is `r pvisual(0,8,20)[3]`. At a signficance level of 5% or in other words, with a confidence interval of 95 %, the P-value which is 100% suggests that the null hypothesis __cannot be rejected__. As a result, we can say that there is __not enough evidence that suggests that the pass lengths of the two teams are different from each other__.
+</div>
+
+## Deeper analysis into passes of each team
+
+While we couldn't find signficant difference in the pass lengths of each teams, however, can we observe any interesting insights for the long passes made by each team ?
 
 ```{r}
 #| label: fig-longpassauskey
@@ -313,6 +294,8 @@ Based on our analysis of @fig-longpassauskey and @fig-longpassbrakey, we can mak
 2. On the other hand, Brazil's long passes originated from the defense. This suggests that Brazil employed short goal kicks while Australia flung more balls from the goalkeeping position to an attacking position.
 
 </div>
+
+Let us now observe how do the key passes change for each team.
 
 ```{r}
 #| label: fig-passauskey
