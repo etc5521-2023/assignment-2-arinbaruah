@@ -272,7 +272,7 @@ Question D
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>           ) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>,<span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">'cornsilk'</span>),<span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>)) <span class="sc">+</span></span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="dv">2</span>, <span class="at">color =</span> <span class="st">"lightgray"</span>) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Average rating of each genre"</span>, </span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>                                                                       <span class="at">x=</span> <span class="st">"Movie Genre"</span>,</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>                                                                       <span class="at">caption =</span> <span class="st">"Source: IMDB"</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Average rating of each genre for movies released in 2023"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>                                                                       <span class="at">caption =</span> <span class="st">"Source: IMDB"</span>) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"Average rating of each genre for </span><span class="sc">\n</span><span class="st"> movies released in 2023"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-genre" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -307,9 +307,52 @@ Question E
 <p>Answer E</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">scipen=</span><span class="dv">1000</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>df_votes <span class="ot">&lt;-</span> movies_2023 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(averageRating) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">Total_votes =</span> <span class="fu">sum</span>(numVotes))</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>pl2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> df_votes,<span class="fu">aes</span>(<span class="at">x =</span> averageRating,<span class="at">y =</span> Total_votes<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">fill=</span>averageRating)) <span class="sc">+</span> <span class="fu">theme_classic</span>()<span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Average rating"</span>,<span class="at">y =</span> <span class="st">"Total number of votes (in 1000s)"</span>,<span class="at">caption =</span> <span class="st">"Source: IMDB"</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'none'</span>) </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>pl2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>titles <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Barbie"</span>,<span class="st">"Oppenheimer"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>df_barbenheimer <span class="ot">&lt;-</span> movies_2023 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(primaryTitle <span class="sc">%in%</span> titles)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>df_votes <span class="ot">&lt;-</span> movies_2023 <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(averageRating) <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="at">Total_votes =</span> <span class="fu">sum</span>(numVotes))</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>pl2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> df_votes,<span class="fu">aes</span>(<span class="at">x =</span> averageRating,<span class="at">y =</span> Total_votes<span class="sc">/</span><span class="dv">1000</span>)) <span class="sc">+</span> <span class="fu">geom_col</span>(<span class="fu">aes</span>(<span class="at">fill=</span>averageRating)) <span class="sc">+</span> </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> df_barbenheimer<span class="sc">$</span>averageRating,<span class="at">linetype =</span> <span class="st">'dashed'</span>,<span class="at">color =</span> <span class="fu">c</span>(<span class="st">"pink"</span>,<span class="st">"black"</span>)) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Average rating"</span>,<span class="at">y =</span> <span class="st">"Total number of votes (in 1000s)"</span>,<span class="at">caption =</span> <span class="st">"Source: IMDB"</span>) <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">'none'</span>) <span class="sc">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"segment"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">9</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="dv">450</span>,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">xend =</span> <span class="fl">8.6</span>  ,</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">yend =</span> <span class="dv">400</span>,</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">type =</span> <span class="st">"closed"</span>,</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>                  <span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.02</span>, <span class="st">"npc"</span>))</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text"</span>,</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fl">9.5</span>,</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="dv">460</span>,</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"black"</span>,</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">'Oppenheimer rating: 8.6'</span>,</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fu">unit</span>(<span class="fl">2.5</span>, <span class="st">"pt"</span>)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    <span class="st">"segment"</span>,</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">7</span>,</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="dv">450</span>,</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">xend =</span> <span class="fl">7.3</span>  ,</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">yend =</span> <span class="dv">400</span>,</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">type =</span> <span class="st">"closed"</span>,</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>                  <span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.02</span>, <span class="st">"npc"</span>))</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text"</span>,</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="fl">6.7</span>,</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="dv">460</span>,</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"#AA336A"</span>,</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">'Barbie rating: 7.4'</span>,</span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fu">unit</span>(<span class="fl">2.5</span>, <span class="st">"pt"</span>)</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-47"><a href="#cb7-47" aria-hidden="true" tabindex="-1"></a>pl2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div id="fig-votes" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -325,6 +368,8 @@ Question E
 <li>There were <strong>very few movies</strong> which were either rated <strong>very low (less than 3) or very high (higher than 9)</strong>.</li>
 <li>The <strong>rating of 6.1 was the most common rating in the dataset, followed by 7.4 and 8</strong>.</li>
 <li>Majority of the movies are rated between 5 and 8, which indicates that <strong>most movies are likely to be moderately rated</strong>.</li>
+<li>The two viral movies, Barbie and Oppenheimer were visualised on this plot to understand how popular have these movies been in relation to the other releases in 2023.</li>
+<li>The movie, <strong>Oppenheimer has been highly rated with an average rating of 8.4 while the movie, Barbie was moderately rated with a rating of 7.6</strong>.</li>
 </ol>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -340,12 +385,90 @@ Question F
 <p>Make appropriate plots to explore the relationship of run time against ratings.</p>
 </div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pl3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data=</span>movies_2023 <span class="sc">%&gt;%</span> <span class="fu">arrange</span>(runtimeMinutes),<span class="fu">aes</span>(<span class="at">y =</span> averageRating,<span class="at">x =</span> runtimeMinutes)) <span class="sc">+</span> <span class="fu">geom_hex</span>() <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">3</span>))</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pl3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<p><img src="Q2_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
+<p>As we have a wide variation in the runtimes, we will categorise movies into either short, moderate or long movies.</p>
+<div class="alert alert-block alert-warning">
+<p>The categorisation of the runtime which has been visualised in <a href="#fig-runtime">Figure&nbsp;4</a> will be done as follows:</p>
+<ol type="1">
+<li>Short movies: Movies with runtime of upto an hour (60 mins).</li>
+<li>Moderate movies: Movies with runtime upto 2 hours (120 mins).</li>
+<li>Long movies: Movies with runtime exceeding 2 hours (&gt;120 mins).</li>
+</ol>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>movies_2023<span class="sc">$</span>runtimeMinutes <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(movies_2023<span class="sc">$</span>runtimeMinutes)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>pl3 <span class="ot">&lt;-</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="at">data =</span> movies_2023, <span class="fu">aes</span>(<span class="at">x =</span> runtimeMinutes)) <span class="sc">+</span>  <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">'cornsilk'</span>) <span class="sc">+</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">c</span>(<span class="dv">60</span>, <span class="dv">120</span>), <span class="at">linetype =</span> <span class="st">'dashed'</span>) <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text"</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">30</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fl">0.025</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"darkgreen"</span>,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">'Short'</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fu">unit</span>(<span class="dv">4</span>, <span class="st">"pt"</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text"</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">90</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fl">0.025</span>,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"black"</span>,</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">'Moderate'</span>,</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fu">unit</span>(<span class="dv">4</span>, <span class="st">"pt"</span>)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"text"</span>,</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="dv">200</span>,</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="fl">0.025</span>,</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">"darkred"</span>,</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">'Long'</span>,</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="fu">unit</span>(<span class="dv">4</span>, <span class="st">"pt"</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Runtime duration (in mins)"</span>,<span class="at">y =</span> <span class="st">"Probility density"</span>)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>pl3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-runtime" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Q2_files/figure-html/fig-runtime-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;4: Runtime categorisation</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>movies_2023 <span class="ot">&lt;-</span> movies_2023 <span class="sc">%&gt;%</span> <span class="fu">mutate</span>(<span class="at">runtimeCategory =</span> <span class="fu">case_when</span>( runtimeMinutes<span class="sc">&lt;=</span><span class="dv">60</span> <span class="sc">~</span> <span class="st">"Short"</span>,</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                                                                   runtimeMinutes<span class="sc">&gt;</span><span class="dv">60</span> <span class="sc">&amp;</span> runtimeMinutes<span class="sc">&lt;=</span><span class="dv">120</span> <span class="sc">~</span> <span class="st">"Moderate"</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                                                                   runtimeMinutes<span class="sc">&gt;</span><span class="dv">120</span> <span class="sc">~</span> <span class="st">"Long"</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                                                 ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>factor_level <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Short"</span>,<span class="st">"Moderate"</span>,<span class="st">"Long"</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>movies_2023<span class="sc">$</span>runtimeCategory <span class="ot">&lt;-</span> <span class="fu">factor</span>(movies_2023<span class="sc">$</span>runtimeCategory,<span class="at">levels =</span> factor_level)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>df_barbenheimer <span class="ot">&lt;-</span> movies_2023 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(primaryTitle <span class="sc">%in%</span> titles)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>pl4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="at">data =</span> movies_2023, <span class="fu">aes</span>(<span class="at">x =</span> runtimeCategory,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                                      <span class="at">y =</span> averageRating)) <span class="sc">+</span> </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>), <span class="fu">aes</span>(<span class="at">fill =</span> runtimeCategory),<span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="sc">~</span><span class="fu">filter</span>(.x, primaryTitle <span class="sc">%in%</span> titles),<span class="fu">aes</span>(<span class="at">x =</span> runtimeCategory,<span class="at">y =</span> averageRating,<span class="at">shape =</span> primaryTitle),<span class="at">size=</span><span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">"Paired"</span>)  <span class="sc">+</span> <span class="fu">theme_classic</span>() <span class="sc">+</span> </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Runtime duration category"</span>,<span class="at">y =</span> <span class="st">"Average rating"</span>,<span class="at">shape =</span> <span class="st">"Movie"</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>pl4</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-runcat" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="Q2_files/figure-html/fig-runcat-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Figure&nbsp;5: Average rating for each runtime category</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="alert alert-block alert-warning">
+<p>Upon analysing <a href="#fig-runcat">Figure&nbsp;5</a>, we can make the following observations:</p>
+<ol type="1">
+<li>Movies from all three runtime categories have a very similar median average ratings with the median average rating of long movies slightly higher than short and moderately long movies.</li>
+<li>For short movies, the proportion of movies with low average rating (less than 3) is higher than moderate and long movies. This can be observed through the thicker lower tail of the violin plot for short movies.</li>
+<li>Based on the violin plot, we can observe that the average ratings of each runtime category of movies are <strong>widely spread out</strong> and <strong>there is no clear distinction in the average rating for each category of movies</strong>. Based on this analysis, we can say that there is <strong>no strong relationship between the runtime of the movie and its average rating</strong>.</li>
+<li>Additionally, we can observe that both <strong>Barbie and Oppenheimer</strong> received average ratings <strong>above the median average ratings</strong> for their respective runtime categories, indicating that they have been <strong>popular movies for the year 2023</strong>.</li>
+</ol>
 </div>
 </section>
 

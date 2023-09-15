@@ -13,6 +13,8 @@ library(ggplot2)
 library(ggpubr)
 library(ggthemes)
 library(ggExtra)
+library(ggbeeswarm)
+library(plotly)
 ```
 
 
@@ -132,7 +134,7 @@ ggdotchart(df_genre_sorted, y = "Average_rating",
            ) + theme(legend.position = "none",panel.background = element_rect(fill = 'cornsilk'),axis.text = element_text(face = "bold")) +
   geom_hline(yintercept = 0, linetype = 2, color = "lightgray") + labs(y = "Average rating of each genre", 
                                                                        x= "Movie Genre",
-                                                                       caption = "Source: IMDB") + ggtitle("Average rating of each genre for movies released in 2023") 
+                                                                       caption = "Source: IMDB") + ggtitle("Average rating of each genre for \n movies released in 2023") 
 ```
 
 <div class="alert alert-block alert-warning">
@@ -154,8 +156,51 @@ Answer E
 #| label: fig-votes
 #| fig-cap: "Distribution of the number of votes for each value of average rating received"
 options(scipen=1000)
+
+titles <- c("Barbie","Oppenheimer")
+
+df_barbenheimer <- movies_2023 %>% filter(primaryTitle %in% titles)
+
 df_votes <- movies_2023 %>% group_by(averageRating) %>% summarise(Total_votes = sum(numVotes))
-pl2 <- ggplot(data = df_votes,aes(x = averageRating,y = Total_votes/1000)) + geom_col(aes(fill=averageRating)) + theme_classic()+ scale_x_continuous(breaks = c(1:10)) + labs(x = "Average rating",y = "Total number of votes (in 1000s)",caption = "Source: IMDB") + theme(legend.position = 'none') 
+pl2 <- ggplot(data = df_votes,aes(x = averageRating,y = Total_votes/1000)) + geom_col(aes(fill=averageRating)) + 
+  geom_vline(xintercept = df_barbenheimer$averageRating,linetype = 'dashed',color = c("pink","black")) + theme_classic() + scale_x_continuous(breaks = c(1:10)) + labs(x = "Average rating",y = "Total number of votes (in 1000s)",caption = "Source: IMDB") + theme(legend.position = 'none') +
+    annotate(
+    "segment",
+    x = 9,
+    y = 450,
+    xend = 8.6  ,
+    yend = 400,
+    arrow = arrow(type = "closed",
+                  length = unit(0.02, "npc"))
+  ) +
+  annotate(
+    "text",
+    x = 9.5,
+    y = 460,
+    colour = "black",
+    label = 'Oppenheimer rating: 8.6',
+    size = unit(2.5, "pt")
+  ) +
+    annotate(
+    "segment",
+    x = 7,
+    y = 450,
+    xend = 7.3  ,
+    yend = 400,
+    arrow = arrow(type = "closed",
+                  length = unit(0.02, "npc"))
+  ) +
+  annotate(
+    "text",
+    x = 6.7,
+    y = 460,
+    colour = "#AA336A",
+    label = 'Barbie rating: 7.4',
+    size = unit(2.5, "pt")
+  )
+
+
+
 pl2
 ```
 <div class="alert alert-block alert-warning">
@@ -165,6 +210,8 @@ Based on our analysis of @fig-votes, we can make the following observations:
 1. There were __very few movies__ which were either rated __very low (less than 3) or very high (higher than 9)__.
 2. The __rating of 6.1 was the most common rating in the dataset, followed by 7.4 and 8__.
 3. Majority of the movies are rated between 5 and 8, which indicates that __most movies are likely to be moderately rated__.
+4. The two viral movies, Barbie and Oppenheimer were visualised on this plot to understand how popular have these movies been in relation to the other releases in 2023.
+5. The movie, __Oppenheimer has been highly rated with an average rating of 8.4 while the movie, Barbie was moderately rated with a rating of 7.6__.
 
 </div>
 
@@ -175,10 +222,77 @@ Based on our analysis of @fig-votes, we can make the following observations:
 Make appropriate plots to explore the relationship of run time against ratings. 
 :::
 
+As we have a wide variation in the runtimes, we will categorise movies into either short, moderate or long movies. 
+
+<div class="alert alert-block alert-warning">
+The categorisation of the runtime which has been visualised in @fig-runtime will be done as follows:
+
+1. Short movies: Movies with runtime of upto an hour (60 mins).
+2. Moderate movies: Movies with runtime upto 2 hours (120 mins).
+3. Long movies: Movies with runtime exceeding 2 hours (>120 mins).
+</div>
 ```{r}
-
-
-pl3 <- ggplot(data=movies_2023 %>% arrange(runtimeMinutes),aes(y = averageRating,x = runtimeMinutes)) + geom_hex() + theme(axis.text.x = element_text(size = 3))
+#| label: fig-runtime
+#| fig-cap: "Runtime categorisation"
+movies_2023$runtimeMinutes <- as.numeric(movies_2023$runtimeMinutes)
+pl3 <-
+  ggplot(data = movies_2023, aes(x = runtimeMinutes)) +  geom_density(fill = 'cornsilk') + 
+  geom_vline(xintercept = c(60, 120), linetype = 'dashed') + theme_classic() +
+  annotate(
+    "text",
+    x = 30,
+    y = 0.025,
+    colour = "darkgreen",
+    label = 'Short',
+    size = unit(4, "pt")
+  ) +
+  annotate(
+    "text",
+    x = 90,
+    y = 0.025,
+    colour = "black",
+    label = 'Moderate',
+    size = unit(4, "pt")
+  ) +
+  annotate(
+    "text",
+    x = 200,
+    y = 0.025,
+    colour = "darkred",
+    label = 'Long',
+    size = unit(4, "pt")
+  ) + labs(x = "Runtime duration (in mins)",y = "Probility density")
+  
 pl3
 ```
+```{r}
+movies_2023 <- movies_2023 %>% mutate(runtimeCategory = case_when( runtimeMinutes<=60 ~ "Short",
+                                                                   runtimeMinutes>60 & runtimeMinutes<=120 ~ "Moderate",
+                                                                   runtimeMinutes>120 ~ "Long"
+                                                 ))
 
+```
+
+```{r}
+#| label: fig-runcat
+#| fig-cap: "Average rating for each runtime category"
+factor_level <- c("Short","Moderate","Long")
+movies_2023$runtimeCategory <- factor(movies_2023$runtimeCategory,levels = factor_level)
+
+df_barbenheimer <- movies_2023 %>% filter(primaryTitle %in% titles)
+pl4 <- ggplot(data = movies_2023, aes(x = runtimeCategory,
+                                      y = averageRating)) + 
+  geom_violin(draw_quantiles = c(0.25, 0.5, 0.75), aes(fill = runtimeCategory),show.legend = FALSE) +
+  geom_point(data = ~filter(.x, primaryTitle %in% titles),aes(x = runtimeCategory,y = averageRating,shape = primaryTitle),size=3) +
+  scale_fill_brewer(palette = "Paired")  + theme_classic() + 
+  labs(x = "Runtime duration category",y = "Average rating",shape = "Movie")
+pl4
+```
+<div class="alert alert-block alert-warning">
+Upon analysing @fig-runcat, we can make the following observations:
+
+1. Movies from all three runtime categories have a very similar median average ratings with the median average rating of long movies slightly higher than short and moderately long movies.
+2. For short movies, the proportion of movies with low average rating (less than 3) is higher than moderate and long movies. This can be observed through the thicker lower tail of the violin plot for short movies.
+3. Based on the violin plot, we can observe that the average ratings of each runtime category of movies are __widely spread out__ and __there is no clear distinction in the average rating for each category of movies__. Based on this analysis, we can say that there is __no strong relationship between the runtime of the movie and its average rating__.
+4. Additionally, we can observe that both __Barbie and Oppenheimer__ received average ratings __above the median average ratings__ for their respective runtime categories, indicating that they have been __popular movies for the year 2023__.
+</div>
